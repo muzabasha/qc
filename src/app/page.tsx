@@ -17,14 +17,14 @@ const BlochSphere = dynamic(() => import('@/components/quantum/BlochSphere'), {
 
 export default function Home() {
   return (
-    <main className="max-w-7xl mx-auto p-4 md:p-8">
+    <main className="max-w-[1600px] w-full mx-auto p-4 md:p-8">
       {/* Header section */}
       <header className="mb-12 border-b border-slate-800 pb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 bg-linear-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-linear-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">
             Quantum Learning Platform
           </h1>
-          <p className="text-lg text-slate-400 max-w-2xl">
+          <p className="text-2xl text-slate-300 max-w-4xl">
             An interactive, zero-physics-prerequisite journey into quantum computing. Aligned with NEP 2020 principles: experiential, inquiry-based, and multidisciplinary.
           </p>
         </div>
@@ -33,7 +33,7 @@ export default function Home() {
             href="https://scholar-sparkle-web.lovable.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg shadow-lg transition-colors inline-block"
+            className="px-8 py-4 text-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg shadow-lg transition-colors inline-block"
           >
             Instructor Profile
           </a>
@@ -45,19 +45,19 @@ export default function Home() {
         {/* Left Column: Visualizers */}
         <section className="space-y-8 flex flex-col">
           <div>
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span className="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center text-sm shadow">1</span>
+            <h2 className="text-3xl font-bold mb-4 flex items-center gap-4">
+              <span className="bg-indigo-600 w-10 h-10 rounded flex items-center justify-center text-xl shadow">1</span>
               Visualize the Qubit
             </h2>
-            <p className="text-slate-400 mb-4">
+            <p className="text-xl text-slate-300 mb-6">
               The Bloch Sphere represents the quantum state geometrically. Notice how the arrows move when you apply gates!
             </p>
             <BlochSphere />
           </div>
 
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span className="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center text-sm shadow">2</span>
+            <h2 className="text-3xl font-bold mb-4 flex items-center gap-4">
+              <span className="bg-indigo-600 w-10 h-10 rounded flex items-center justify-center text-xl shadow">2</span>
               Understand the Math
             </h2>
             <AnimatedMath />
@@ -67,11 +67,11 @@ export default function Home() {
         {/* Right Column: Interactive Lab */}
         <section className="space-y-8 flex flex-col">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <span className="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center text-sm shadow">3</span>
+            <h2 className="text-3xl font-bold mb-4 flex items-center gap-4">
+              <span className="bg-indigo-600 w-10 h-10 rounded flex items-center justify-center text-xl shadow">3</span>
               Build & Experiment
             </h2>
-            <p className="text-slate-400 mb-4">
+            <p className="text-xl text-slate-300 mb-6">
               Apply quantum gates to watch the state vector rotate.
               <br />
               <strong className="text-emerald-400">X</strong> flips |0⟩ to |1⟩.
@@ -80,12 +80,12 @@ export default function Home() {
             <CircuitBuilder />
           </div>
 
-          <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700 flex-1">
-            <h3 className="text-xl font-bold text-slate-200 mb-4">Challenge: Superposition</h3>
-            <p className="text-slate-400 mb-4">
+          <div className="bg-slate-800/50 rounded-xl p-8 border border-slate-700 flex-1">
+            <h3 className="text-3xl font-bold text-slate-200 mb-6">Challenge: Superposition</h3>
+            <p className="text-xl text-slate-300 mb-6">
               Can you create a state that has a perfect 50% chance of being measured as |0⟩ or |1⟩?
             </p>
-            <ul className="list-disc ml-4 text-sm text-slate-400 space-y-2">
+            <ul className="list-disc ml-6 text-xl text-slate-300 space-y-4">
               <li>Reset the circuit.</li>
               <li>Click to apply the <strong>H (Hadamard)</strong> gate.</li>
               <li>Check the math breakdown down below to confirm |α|² = 50% and |β|² = 50%.</li>

@@ -14,32 +14,32 @@ export default function AnimatedMath() {
     const p1 = prob(beta)
 
     return (
-        <div className="p-6 bg-slate-800 text-white rounded-xl shadow-lg border border-slate-700">
-            <h3 className="text-xl mb-4 font-bold text-slate-200">State Vector</h3>
+        <div className="p-8 bg-slate-800 text-white rounded-xl shadow-lg border border-slate-700">
+            <h3 className="text-3xl mb-6 font-bold text-slate-200">State Vector</h3>
 
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <div className="text-2xl mt-4 mb-8 bg-slate-900/50 p-4 rounded-lg flex flex-col items-center">
+                <div className="text-5xl mt-6 mb-12 bg-slate-900/50 p-8 rounded-xl flex flex-col items-center">
                     <BlockMath math="| \psi \rangle = \alpha | 0 \rangle + \beta | 1 \rangle" />
 
-                    <div className="mt-4 text-sm font-mono flex gap-8">
-                        <span className="text-emerald-400 p-2 bg-emerald-400/10 rounded">
+                    <div className="mt-8 text-2xl font-mono flex gap-12">
+                        <span className="text-emerald-400 p-4 bg-emerald-400/10 rounded-lg">
                             |α|² = {(p0 * 100).toFixed(1)}%
                         </span>
-                        <span className="text-blue-400 p-2 bg-blue-400/10 rounded">
+                        <span className="text-blue-400 p-4 bg-blue-400/10 rounded-lg">
                             |β|² = {(p1 * 100).toFixed(1)}%
                         </span>
                     </div>
                 </div>
             </motion.div>
 
-            <div className="text-sm text-slate-400">
-                <p className="mb-2"><strong>Interactive interpretation:</strong></p>
-                <ul className="list-disc ml-6 mt-2 space-y-1">
-                    <li>The coefficients <span className="text-emerald-400">α</span> and <span className="text-blue-400">β</span> dictate the probability of collapse.</li>
+            <div className="text-xl text-slate-300">
+                <p className="mb-4"><strong>Interactive interpretation:</strong></p>
+                <ul className="list-disc ml-8 mt-4 space-y-4">
+                    <li>The coefficients <span className="text-emerald-400 font-bold">α</span> and <span className="text-blue-400 font-bold">β</span> dictate the probability of collapse.</li>
                     <li>Squaring these amplitudes gives you the measurement probability.</li>
                     <li>Note that |α|² + |β|² = 1.</li>
                 </ul>

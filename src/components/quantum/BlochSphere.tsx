@@ -87,10 +87,10 @@ function BlochSphereContent() {
             <Line points={[[0, -1.2, 0], [0, 1.2, 0]]} color="rgba(255,255,255,0.2)" />
             <Line points={[[0, 0, -1.2], [0, 0, 1.2]]} color="rgba(255,255,255,0.2)" />
 
-            <Html position={[1.3, 0, 0]} center style={{ color: 'white', fontSize: '10px' }}>+X</Html>
-            <Html position={[0, 1.3, 0]} center style={{ color: 'white', fontSize: '10px', fontWeight: 'bold' }}>|0⟩</Html>
-            <Html position={[0, -1.3, 0]} center style={{ color: 'white', fontSize: '10px', fontWeight: 'bold' }}>|1⟩</Html>
-            <Html position={[0, 0, 1.3]} center style={{ color: 'white', fontSize: '10px' }}>+Y</Html>
+            <Html position={[1.4, 0, 0]} center style={{ color: 'white', fontSize: '32px' }}>+X</Html>
+            <Html position={[0, 1.4, 0]} center style={{ color: 'white', fontSize: '32px', fontWeight: 'bold' }}>|0⟩</Html>
+            <Html position={[0, -1.4, 0]} center style={{ color: 'white', fontSize: '32px', fontWeight: 'bold' }}>|1⟩</Html>
+            <Html position={[0, 0, 1.4]} center style={{ color: 'white', fontSize: '32px' }}>+Y</Html>
 
             {/* State Vector */}
             <VectorArrow x={thX} y={thY} z={thZ} />
@@ -100,11 +100,11 @@ function BlochSphereContent() {
 
 export default function BlochSphere() {
     return (
-        <div className="w-full h-[400px] bg-slate-900 rounded-xl overflow-hidden relative border border-slate-700 shadow-2xl">
-            <Canvas camera={{ position: [2, 1.5, 2] }}>
+        <div className="w-full h-[600px] bg-slate-900 rounded-xl overflow-hidden relative border-4 border-slate-700 shadow-2xl">
+            <Canvas camera={{ position: [2.5, 1.8, 2.5] }}>
                 <BlochSphereContent />
             </Canvas>
-            <div className="absolute top-2 left-2 text-xs text-slate-400 bg-slate-900/80 px-2 py-1 rounded">
+            <div className="absolute top-4 left-4 text-2xl text-slate-300 bg-slate-900/80 px-4 py-2 rounded-lg font-bold">
                 Drag to rotate sphere
             </div>
         </div>
