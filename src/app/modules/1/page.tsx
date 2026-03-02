@@ -39,8 +39,8 @@ export default function Module1() {
     return (
         <div className="max-w-[1400px] w-full mx-auto p-4 md:p-6 lg:p-12 space-y-12 md:space-y-16 lg:space-y-24 pb-32 md:pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-8 md:pb-12 pt-4 md:pt-8">
-                <h1 className="text-4xl md:text-6xl lg:text-8xl font-black text-white mb-4 md:mb-6">Module 1: Foundations</h1>
-                <p className="text-xl md:text-2xl lg:text-4xl text-slate-400 font-medium">Thinking Quantum: Moving from Classical Certainty to Quantum Probability</p>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6">Module 1: Foundations</h1>
+                <p className="text-lg md:text-xl text-slate-400 font-medium">Thinking Quantum: Moving from Classical Certainty to Quantum Probability</p>
             </header>
 
             {/* Topic 1 */}

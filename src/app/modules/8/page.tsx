@@ -10,8 +10,8 @@ export default function Module8() {
     return (
         <div className="max-w-[1400px] w-full mx-auto p-6 md:p-12 space-y-12 md:space-y-24 pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-12 pt-8">
-                <h1 className="text-5xl md:text-8xl font-black text-white mb-6">Module 8: Recent Trends & Challenges</h1>
-                <p className="text-2xl md:text-4xl text-slate-400 font-medium">Why don't we all have Quantum Laptops yet?</p>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">Module 8: Recent Trends & Challenges</h1>
+                <p className="text-lg md:text-xl text-slate-400 font-medium">Why don't we all have Quantum Laptops yet?</p>
             </header>
 
             {/* Challenge 1: Decoherence & Noise */}
@@ -112,8 +112,8 @@ export default function Module8() {
             <div className="bg-linear-to-br from-slate-800 to-slate-950 p-12 md:p-32 rounded-[64px] text-center flex flex-col items-center space-y-12 shadow-[0_0_100px_rgba(0,0,0,0.5)] border-4 border-slate-700/50 relative overflow-hidden group">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
-                <h2 className="text-5xl md:text-9xl font-black bg-linear-to-r from-emerald-400 via-cyan-400 to-indigo-500 bg-clip-text text-transparent leading-tight pb-4 z-10">Congratulations!</h2>
-                <p className="text-xl md:text-4xl text-slate-300 max-w-4xl leading-relaxed font-bold z-10 transition-colors group-hover:text-white">
+                <h2 className="text-3xl md:text-5xl font-black bg-linear-to-r from-emerald-400 via-cyan-400 to-indigo-500 bg-clip-text text-transparent leading-tight pb-4 z-10">Congratulations!</h2>
+                <p className="text-lg md:text-2xl text-slate-300 max-w-4xl leading-relaxed font-bold z-10 transition-colors group-hover:text-white">
                     You have journeyed from flipping a quantum coin to understanding hardware trends. You are now prepared for the <strong className="text-white italic">Post-Quantum Era</strong>.
                 </p>
 

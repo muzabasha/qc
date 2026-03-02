@@ -7,8 +7,8 @@ export default function Module7() {
     return (
         <div className="max-w-[1400px] w-full mx-auto p-6 md:p-12 space-y-12 md:space-y-24 pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-12 pt-8">
-                <h1 className="text-5xl md:text-8xl font-black text-white mb-6">Module 7: Real-World Applications</h1>
-                <p className="text-2xl md:text-4xl text-slate-400 font-medium">Where will Quantum make an impact?</p>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6">Module 7: Real-World Applications</h1>
+                <p className="text-lg md:text-xl text-slate-400 font-medium">Where will Quantum make an impact?</p>
             </header>
 
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
