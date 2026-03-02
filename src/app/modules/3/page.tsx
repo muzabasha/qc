@@ -7,6 +7,7 @@ import CircuitBuilder from '@/components/quantum/CircuitBuilder'
 import dynamic from 'next/dynamic'
 import { BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
+import CodeBlock from '@/components/CodeBlock'
 
 const BlochSphere = dynamic(() => import('@/components/quantum/BlochSphere'), { ssr: false })
 

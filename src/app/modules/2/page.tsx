@@ -7,6 +7,7 @@ import { prob } from '@/physics/math'
 import Link from 'next/link'
 import { BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
+import CodeBlock from '@/components/CodeBlock'
 
 export default function Module2() {
     const { alpha, beta, measure, setAmplitudes } = useQuantumStore()
@@ -217,6 +218,121 @@ export default function Module2() {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Python Code Example */}
+            <section className="space-y-8 pt-24 border-t-4 border-slate-800">
+                <div className="flex items-center gap-6">
+                    <div className="bg-purple-600/20 p-4 rounded-xl text-4xl">💻</div>
+                    <h2 className="text-3xl md:text-5xl font-black text-purple-400">Code It Yourself: Custom Superposition</h2>
+                </div>
+                <p className="text-xl text-slate-400">
+                    Learn how to create qubits in different superposition states using rotation gates. Experiment with different angles to see how probabilities change!
+                </p>
+                <CodeBlock
+                    title="Creating Custom Superposition States"
+                    description="Learn how to create qubits in different superposition states using rotation gates."
+                    code={[
+                        {
+                            code: "from qiskit import QuantumCircuit",
+                            explanation: "Import QuantumCircuit to build our quantum circuit."
+                        },
+                        {
+                            code: "from qiskit.visualization import plot_bloch_multivector",
+                            explanation: "Import visualization tool to see our qubit state on the Bloch sphere."
+                        },
+                        {
+                            code: "from qiskit_aer import Aer",
+                            explanation: "Import the Aer simulator to run our quantum circuit."
+                        },
+                        {
+                            code: "import numpy as np",
+                            explanation: "Import NumPy for mathematical operations, especially for angles."
+                        },
+                        {
+                            code: "",
+                            explanation: "Empty line for code organization."
+                        },
+                        {
+                            code: "# Create a quantum circuit with 1 qubit",
+                            explanation: "We'll create different superposition states on this single qubit."
+                        },
+                        {
+                            code: "qc = QuantumCircuit(1)",
+                            explanation: "Initialize a circuit with one qubit. It starts in state |0⟩."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before applying gates."
+                        },
+                        {
+                            code: "# Method 1: Equal superposition (H gate)",
+                            explanation: "The Hadamard gate creates a perfect 50-50 superposition."
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Apply H gate: transforms |0⟩ into (|0⟩ + |1⟩)/√2. This gives 50% probability for each outcome."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing between methods."
+                        },
+                        {
+                            code: "# Method 2: Custom superposition (Ry gate)",
+                            explanation: "The Ry (rotation around Y-axis) gate lets us create any superposition we want!"
+                        },
+                        {
+                            code: "# qc.ry(np.pi/3, 0)  # Uncomment to try 75% |0⟩, 25% |1⟩",
+                            explanation: "Ry gate rotates the qubit by an angle. π/3 radians (60°) creates a 75-25 split. Try different angles!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before simulation."
+                        },
+                        {
+                            code: "# Simulate and visualize",
+                            explanation: "Let's see what our qubit state looks like."
+                        },
+                        {
+                            code: "simulator = Aer.get_backend('statevector_simulator')",
+                            explanation: "Get the statevector simulator - this shows us the exact quantum state without measuring."
+                        },
+                        {
+                            code: "result = simulator.run(qc).result()",
+                            explanation: "Run the circuit and get the result."
+                        },
+                        {
+                            code: "statevector = result.get_statevector()",
+                            explanation: "Extract the statevector - the complete quantum state [α, β] where α is amplitude for |0⟩ and β for |1⟩."
+                        },
+                        {
+                            code: "",
+                            explanation: "Final spacing."
+                        },
+                        {
+                            code: "print(f'State vector: {statevector}')",
+                            explanation: "Print the state vector. For H gate, you'll see [0.707+0j, 0.707+0j], which means equal superposition!"
+                        },
+                        {
+                            code: "print(f'Probability of |0⟩: {abs(statevector[0])**2:.2%}')",
+                            explanation: "Calculate and print probability of measuring |0⟩. The **2 squares the amplitude to get probability."
+                        },
+                        {
+                            code: "print(f'Probability of |1⟩: {abs(statevector[1])**2:.2%}')",
+                            explanation: "Calculate and print probability of measuring |1⟩. For H gate, both should be 50.00%."
+                        }
+                    ]}
+                    output={`State vector: [0.70710678+0.j 0.70710678+0.j]
+Probability of |0⟩: 50.00%
+Probability of |1⟩: 50.00%
+
+Explanation:
+- The state vector shows [α, β] = [0.707, 0.707]
+- 0.707 ≈ 1/√2, confirming equal superposition
+- Squaring gives 0.707² = 0.5 = 50%
+- Try uncommenting the Ry gate line to see different probabilities!`}
+                    language="python"
+                />
             </section>
 
             <div className="pt-24 flex justify-between">
