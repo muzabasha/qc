@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { prob } from '@/physics/math'
 import { useQuantumStore } from '@/store/useQuantumStore'
+import { useProgressStore } from '@/store/useProgressStore'
+import { useToast } from '@/components/Toast'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { BlockMath } from 'react-katex'
@@ -14,6 +16,8 @@ const BlochSphere = dynamic(() => import('@/components/quantum/BlochSphere'), { 
 export default function Module1() {
     const [isQuantum, setIsQuantum] = useState(false)
     const [coinState, setCoinState] = useState<'Heads' | 'Tails' | 'Spinning...'>('Heads')
+    const { markModuleComplete } = useProgressStore()
+    const { showToast } = useToast()
 
     const handleFlip = () => {
         setCoinState('Spinning...')
@@ -27,11 +31,16 @@ export default function Module1() {
 
     const [qOutcome, setQOutcome] = useState<number | null>(null)
 
+    const handleCompleteModule = () => {
+        markModuleComplete(1)
+        showToast('Module 1 completed! 🎉', 'success')
+    }
+
     return (
-        <div className="max-w-[1400px] w-full mx-auto p-6 md:p-12 space-y-12 md:space-y-24 pb-48 animate-in fade-in duration-700 relative">
-            <header className="border-b-4 border-slate-800 pb-12 pt-8">
-                <h1 className="text-5xl md:text-8xl font-black text-white mb-6">Module 1: Foundations</h1>
-                <p className="text-2xl md:text-4xl text-slate-400 font-medium">Thinking Quantum: Moving from Classical Certainty to Quantum Probability</p>
+        <div className="max-w-[1400px] w-full mx-auto p-4 md:p-6 lg:p-12 space-y-12 md:space-y-16 lg:space-y-24 pb-32 md:pb-48 animate-in fade-in duration-700 relative">
+            <header className="border-b-4 border-slate-800 pb-8 md:pb-12 pt-4 md:pt-8">
+                <h1 className="text-4xl md:text-6xl lg:text-8xl font-black text-white mb-4 md:mb-6">Module 1: Foundations</h1>
+                <p className="text-xl md:text-2xl lg:text-4xl text-slate-400 font-medium">Thinking Quantum: Moving from Classical Certainty to Quantum Probability</p>
             </header>
 
             {/* Topic 1 */}
@@ -191,10 +200,29 @@ export default function Module1() {
                 </div>
             </section>
 
-            <div className="pt-24 flex justify-end">
-                <Link href="/modules/2" className="flex items-center gap-4 px-10 py-5 bg-cyan-600 hover:bg-cyan-500 text-white text-2xl md:text-4xl font-black rounded-2xl shadow-2xl border-b-8 border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
+            <div className="pt-16 md:pt-24 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <Link
+                    href="/"
+                    className="flex items-center gap-4 px-6 md:px-10 py-4 md:py-5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-lg md:text-xl font-bold rounded-2xl transition-all group"
+                    aria-label="Go back to home page"
+                >
+                    <span className="group-hover:-translate-x-2 transition-transform" aria-hidden="true">←</span>
+                    Home
+                </Link>
+                <button
+                    onClick={handleCompleteModule}
+                    className="px-8 md:px-10 py-4 md:py-5 bg-emerald-600 hover:bg-emerald-500 text-white text-lg md:text-xl font-black rounded-2xl shadow-xl border-b-6 border-emerald-800 transition-all active:border-b-0 active:translate-y-2"
+                    aria-label="Mark module 1 as complete"
+                >
+                    ✓ Mark Complete
+                </button>
+                <Link
+                    href="/modules/2"
+                    className="flex items-center gap-4 px-8 md:px-10 py-4 md:py-5 bg-cyan-600 hover:bg-cyan-500 text-white text-xl md:text-3xl lg:text-4xl font-black rounded-2xl shadow-2xl border-b-6 md:border-b-8 border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group"
+                    aria-label="Proceed to module 2"
+                >
                     Proceed to Module 2
-                    <span className="group-hover:translate-x-2 transition-transform">→</span>
+                    <span className="group-hover:translate-x-2 transition-transform" aria-hidden="true">→</span>
                 </Link>
             </div>
         </div>

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ToastProvider } from "@/components/Toast";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import KeyboardShortcutsModal from "@/components/KeyboardShortcutsModal";
+import SearchModal from "@/components/SearchModal";
+import Glossary from "@/components/Glossary";
+import AchievementBadge from "@/components/AchievementBadge";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +19,7 @@ export const metadata: Metadata = {
     description: "Learn Quantum Computing from zero physics background interactively.",
     type: "website",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -23,7 +30,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200 antialiased overflow-x-hidden`}>
-        {children}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:font-bold">
+          Skip to main content
+        </a>
+        <ErrorBoundary>
+          <ToastProvider>
+            {children}
+            <KeyboardShortcutsModal />
+            <SearchModal />
+            <Glossary />
+            <AchievementBadge />
+          </ToastProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -19,8 +19,6 @@ function VectorArrow({ x, y, z }: { x: number, y: number, z: number }) {
     const endPoint = new THREE.Vector3(normX, normY, normZ)
     const origin = new THREE.Vector3(0, 0, 0)
 
-    // THREE.ArrowHelper could be tricky in R3F natively without creating an explicit object.
-    // We'll draw a Line and a Cone on top.
     return (
         <group ref={meshRef}>
             <Line
@@ -45,8 +43,6 @@ function BlochSphereContent() {
     const norm = Math.sqrt(aMag2 + bMag2)
     if (norm === 0) return null
 
-    // r is assumed 1 after normalization.
-    // For |psi> = cos(theta/2)|0> + e^(i*phi)sin(theta/2)|1>
     const theta = 2 * Math.acos(Math.sqrt(aMag2))
 
     // Phi is difference in phase between alpha and beta
@@ -54,14 +50,6 @@ function BlochSphereContent() {
     const phaseB = Math.atan2(beta.i, beta.r)
     const phi = phaseB - phaseA
 
-    // Spherical to Cartesian:
-    // Physics convention: z is up (|0>), -z is down (|1>)
-    // x = sin(theta)*cos(phi), y = sin(theta)*sin(phi), z = cos(theta)
-    // In Three.js: y is up
-    // So map (x, y, z) -> (sin(theta)cos(phi), cos(theta), sin(theta)sin(phi)) ?
-    // Actually, standard Three.js has Y up. Bloch sphere has Z up.
-    // We'll map Bloch coordinates to ThreeJS coordinates: (ThreeX = X, ThreeY = Z, ThreeZ = Y)
-    // Wait, let's just stick to ThreeJS Y up => |0> is +Y, |1> is -Y
     const bx = Math.sin(theta) * Math.cos(phi)
     const by = Math.sin(theta) * Math.sin(phi)
     const bz = Math.cos(theta)
@@ -87,10 +75,18 @@ function BlochSphereContent() {
             <Line points={[[0, -1.2, 0], [0, 1.2, 0]]} color="rgba(255,255,255,0.2)" />
             <Line points={[[0, 0, -1.2], [0, 0, 1.2]]} color="rgba(255,255,255,0.2)" />
 
-            <Html position={[1.4, 0, 0]} center style={{ color: 'white', fontSize: '32px' }}>+X</Html>
-            <Html position={[0, 1.4, 0]} center style={{ color: 'white', fontSize: '32px', fontWeight: 'bold' }}>|0⟩</Html>
-            <Html position={[0, -1.4, 0]} center style={{ color: 'white', fontSize: '32px', fontWeight: 'bold' }}>|1⟩</Html>
-            <Html position={[0, 0, 1.4]} center style={{ color: 'white', fontSize: '32px' }}>+Y</Html>
+            <Html position={[1.4, 0, 0]} center style={{ color: 'white', fontSize: '24px' }}>
+                <span aria-label="Plus X axis">+X</span>
+            </Html>
+            <Html position={[0, 1.4, 0]} center style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                <span aria-label="State zero, top of sphere">|0⟩</span>
+            </Html>
+            <Html position={[0, -1.4, 0]} center style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                <span aria-label="State one, bottom of sphere">|1⟩</span>
+            </Html>
+            <Html position={[0, 0, 1.4]} center style={{ color: 'white', fontSize: '24px' }}>
+                <span aria-label="Plus Y axis">+Y</span>
+            </Html>
 
             {/* State Vector */}
             <VectorArrow x={thX} y={thY} z={thZ} />
@@ -99,13 +95,28 @@ function BlochSphereContent() {
 }
 
 export default function BlochSphere() {
+    const { alpha, beta } = useQuantumStore()
+    const aMag2 = prob(alpha)
+    const bMag2 = prob(beta)
+
     return (
-        <div className="w-full h-[600px] bg-slate-900 rounded-xl overflow-hidden relative border-4 border-slate-700 shadow-2xl">
+        <div className="w-full h-[500px] md:h-[600px] bg-slate-900 rounded-xl overflow-hidden relative border-4 border-slate-700 shadow-2xl">
             <Canvas camera={{ position: [2.5, 1.8, 2.5] }}>
                 <BlochSphereContent />
             </Canvas>
-            <div className="absolute top-4 left-4 text-2xl text-slate-300 bg-slate-900/80 px-4 py-2 rounded-lg font-bold">
+            <div className="absolute top-4 left-4 text-lg md:text-2xl text-slate-300 bg-slate-900/80 px-4 py-2 rounded-lg font-bold backdrop-blur-sm">
                 Drag to rotate sphere
+            </div>
+            <div
+                className="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-sm px-4 py-3 rounded-lg border border-slate-700"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                <p className="text-sm md:text-base text-slate-300">
+                    <span className="sr-only">Current quantum state: </span>
+                    P(|0⟩) = {(aMag2 * 100).toFixed(1)}%, P(|1⟩) = {(bMag2 * 100).toFixed(1)}%
+                </p>
             </div>
         </div>
     )
