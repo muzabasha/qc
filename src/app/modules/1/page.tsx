@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
+import CodeBlock from '@/components/CodeBlock'
 
 const BlochSphere = dynamic(() => import('@/components/quantum/BlochSphere'), { ssr: false })
 
@@ -198,6 +199,113 @@ export default function Module1() {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Python Code Example */}
+            <section className="space-y-8 pt-24 border-t-4 border-slate-800">
+                <div className="flex items-center gap-6">
+                    <div className="bg-purple-600/20 p-4 rounded-xl text-4xl">💻</div>
+                    <h2 className="text-3xl md:text-5xl font-black text-purple-400">Code It Yourself: Creating a Qubit</h2>
+                </div>
+                <p className="text-xl text-slate-400">
+                    Let's create your first qubit using Qiskit, IBM's quantum computing framework. This code demonstrates how to initialize a qubit in superposition.
+                </p>
+                <CodeBlock
+                    title="Creating and Measuring a Qubit in Superposition"
+                    description="This example shows how to create a quantum circuit with one qubit, apply a Hadamard gate to create superposition, and measure the result."
+                    code={[
+                        {
+                            code: "from qiskit import QuantumCircuit, transpile",
+                            explanation: "Import the necessary classes from Qiskit. QuantumCircuit lets us build quantum circuits, and transpile optimizes our circuit for execution."
+                        },
+                        {
+                            code: "from qiskit_aer import Aer",
+                            explanation: "Import Aer, which is Qiskit's high-performance quantum circuit simulator. This allows us to run quantum circuits on our classical computer."
+                        },
+                        {
+                            code: "",
+                            explanation: "Empty line for readability - good coding practice!"
+                        },
+                        {
+                            code: "# Create a quantum circuit with 1 qubit and 1 classical bit",
+                            explanation: "Comments (lines starting with #) help explain what the code does. They're ignored by Python but crucial for understanding."
+                        },
+                        {
+                            code: "qc = QuantumCircuit(1, 1)",
+                            explanation: "Create a quantum circuit named 'qc' with 1 qubit (quantum bit) and 1 classical bit (for storing measurement results). The qubit starts in state |0⟩."
+                        },
+                        {
+                            code: "",
+                            explanation: "Another empty line for code organization."
+                        },
+                        {
+                            code: "# Apply Hadamard gate to create superposition",
+                            explanation: "The Hadamard (H) gate is the 'magic' that creates superposition - it puts the qubit into an equal mix of |0⟩ and |1⟩."
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Apply the Hadamard gate to qubit 0. After this, the qubit is in state (|0⟩ + |1⟩)/√2, meaning 50% chance of measuring 0 or 1."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before measurement section."
+                        },
+                        {
+                            code: "# Measure the qubit",
+                            explanation: "Measurement collapses the superposition - the qubit 'chooses' to be either |0⟩ or |1⟩."
+                        },
+                        {
+                            code: "qc.measure(0, 0)",
+                            explanation: "Measure qubit 0 and store the result in classical bit 0. This is when the quantum magic ends and we get a definite answer (0 or 1)."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before simulation section."
+                        },
+                        {
+                            code: "# Simulate the circuit",
+                            explanation: "Now we'll run our quantum circuit on a simulator to see what happens."
+                        },
+                        {
+                            code: "simulator = Aer.get_backend('qasm_simulator')",
+                            explanation: "Get the quantum assembly (QASM) simulator backend. This simulates a real quantum computer on your classical computer."
+                        },
+                        {
+                            code: "compiled_circuit = transpile(qc, simulator)",
+                            explanation: "Transpile (translate and optimize) our circuit for the simulator. This converts our high-level circuit into instructions the simulator understands."
+                        },
+                        {
+                            code: "job = simulator.run(compiled_circuit, shots=1000)",
+                            explanation: "Run the circuit 1000 times (shots=1000). Since quantum measurements are probabilistic, we run multiple times to see the probability distribution."
+                        },
+                        {
+                            code: "result = job.result()",
+                            explanation: "Wait for the simulation to complete and get the results. This contains all 1000 measurement outcomes."
+                        },
+                        {
+                            code: "counts = result.get_counts()",
+                            explanation: "Extract the measurement counts - how many times we got '0' and how many times we got '1' out of 1000 shots."
+                        },
+                        {
+                            code: "",
+                            explanation: "Final spacing before output."
+                        },
+                        {
+                            code: "print(f'Measurement results: {counts}')",
+                            explanation: "Print the results. You should see approximately 500 zeros and 500 ones, confirming our 50-50 superposition! The f-string (f'...') allows us to embed variables in the output."
+                        }
+                    ]}
+                    output={`Measurement results: {'0': 503, '1': 497}
+
+Explanation: Out of 1000 measurements, we got:
+- '0' approximately 503 times (~50%)
+- '1' approximately 497 times (~50%)
+
+This confirms our qubit was in perfect superposition!
+The slight difference from exactly 500-500 is due to
+quantum randomness - that's the beauty of quantum mechanics!`}
+                    language="python"
+                />
             </section>
 
             <div className="pt-16 md:pt-24 flex flex-col sm:flex-row justify-between items-center gap-4">
