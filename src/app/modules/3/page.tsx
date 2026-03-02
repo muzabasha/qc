@@ -109,6 +109,133 @@ export default function Module3() {
                 </div>
             </section>
 
+            {/* Python Code Example */}
+            <section className="space-y-8 pt-24 border-t-4 border-slate-800">
+                <div className="flex items-center gap-6">
+                    <div className="bg-purple-600/20 p-4 rounded-xl text-4xl">💻</div>
+                    <h2 className="text-3xl md:text-5xl font-black text-purple-400">Code It Yourself: Quantum Gates</h2>
+                </div>
+                <p className="text-xl text-slate-400">
+                    Apply different quantum gates and observe how they transform qubit states. See the power of X, H, and other gates in action!
+                </p>
+                <CodeBlock
+                    title="Exploring Quantum Gates"
+                    description="Apply different quantum gates and observe how they transform qubit states."
+                    code={[
+                        {
+                            code: "from qiskit import QuantumCircuit, transpile",
+                            explanation: "Import necessary Qiskit components for building and optimizing circuits."
+                        },
+                        {
+                            code: "from qiskit_aer import Aer",
+                            explanation: "Import Aer simulator to run our quantum gates."
+                        },
+                        {
+                            code: "",
+                            explanation: "Empty line for readability."
+                        },
+                        {
+                            code: "# Create circuit with 1 qubit and 1 classical bit",
+                            explanation: "We need a classical bit to store measurement results."
+                        },
+                        {
+                            code: "qc = QuantumCircuit(1, 1)",
+                            explanation: "Initialize circuit. Qubit starts in |0⟩ state."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before gate application."
+                        },
+                        {
+                            code: "# Apply X gate (NOT gate - flips |0⟩ to |1⟩)",
+                            explanation: "The X gate is like a classical NOT gate - it flips the qubit state."
+                        },
+                        {
+                            code: "qc.x(0)",
+                            explanation: "Apply X gate to qubit 0. This transforms |0⟩ → |1⟩ and |1⟩ → |0⟩."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing between operations."
+                        },
+                        {
+                            code: "# Apply H gate (creates superposition)",
+                            explanation: "Hadamard gate creates or removes superposition."
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Apply H gate. Since we're in |1⟩, this creates (|0⟩ - |1⟩)/√2 - note the minus sign!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before measurement."
+                        },
+                        {
+                            code: "# Measure the qubit",
+                            explanation: "Collapse the superposition to get a definite result."
+                        },
+                        {
+                            code: "qc.measure(0, 0)",
+                            explanation: "Measure qubit 0, store result in classical bit 0."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before simulation."
+                        },
+                        {
+                            code: "# Run the circuit multiple times",
+                            explanation: "Run 1000 times to see the probability distribution."
+                        },
+                        {
+                            code: "simulator = Aer.get_backend('qasm_simulator')",
+                            explanation: "Get the quantum assembly simulator."
+                        },
+                        {
+                            code: "compiled = transpile(qc, simulator)",
+                            explanation: "Optimize the circuit for the simulator."
+                        },
+                        {
+                            code: "job = simulator.run(compiled, shots=1000)",
+                            explanation: "Execute 1000 shots (repetitions) of the circuit."
+                        },
+                        {
+                            code: "result = job.result()",
+                            explanation: "Wait for completion and retrieve results."
+                        },
+                        {
+                            code: "counts = result.get_counts()",
+                            explanation: "Get the count of how many times we measured 0 vs 1."
+                        },
+                        {
+                            code: "",
+                            explanation: "Final spacing."
+                        },
+                        {
+                            code: "print(f'Results: {counts}')",
+                            explanation: "Print the measurement counts. You should see roughly 50-50 distribution again!"
+                        },
+                        {
+                            code: "print(f'Circuit diagram:\\n{qc.draw()}')",
+                            explanation: "Print a text diagram of the circuit showing X → H → Measure sequence."
+                        }
+                    ]}
+                    output={`Results: {'0': 489, '1': 511}
+Circuit diagram:
+     ┌───┐┌───┐┌─┐
+q_0: ┤ X ├┤ H ├┤M├
+     └───┘└───┘└╥┘
+c: 1/═══════════╩═
+                0
+
+Explanation:
+- X gate flipped |0⟩ to |1⟩
+- H gate created superposition from |1⟩
+- Result: ~50-50 distribution
+- The circuit diagram shows the gate sequence visually!`}
+                    language="python"
+                />
+            </section>
+
             <div className="pt-24 flex justify-between">
                 <Link href="/modules/2" className="flex items-center gap-4 px-6 md:px-10 py-4 md:py-5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xl font-bold rounded-2xl transition-all group">
                     <span className="group-hover:-translate-x-2 transition-transform">←</span>

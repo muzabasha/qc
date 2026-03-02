@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
+import CodeBlock from '@/components/CodeBlock'
 
 export default function Module5() {
     return (
@@ -113,6 +114,136 @@ export default function Module5() {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Interactive Code Example */}
+            <section className="space-y-8">
+                <CodeBlock
+                    title="Building a 3-Qubit Quantum Circuit"
+                    description="Create a more complex circuit with multiple qubits and gates."
+                    code={[
+                        {
+                            code: "from qiskit import QuantumCircuit",
+                            explanation: "Import QuantumCircuit for building multi-qubit circuits."
+                        },
+                        {
+                            code: "from qiskit.visualization import circuit_drawer",
+                            explanation: "Import circuit_drawer to visualize our complex circuit."
+                        },
+                        {
+                            code: "",
+                            explanation: "Empty line for organization."
+                        },
+                        {
+                            code: "# Create a 3-qubit circuit",
+                            explanation: "More qubits = more computational power! 3 qubits can represent 8 states simultaneously."
+                        },
+                        {
+                            code: "qc = QuantumCircuit(3, 3)",
+                            explanation: "Initialize circuit with 3 qubits and 3 classical bits. State space is 2³ = 8 dimensional!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before building circuit."
+                        },
+                        {
+                            code: "# Layer 1: Create superposition on all qubits",
+                            explanation: "Apply H gates to all qubits to explore the full 8-dimensional state space."
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Put qubit 0 in superposition."
+                        },
+                        {
+                            code: "qc.h(1)",
+                            explanation: "Put qubit 1 in superposition."
+                        },
+                        {
+                            code: "qc.h(2)",
+                            explanation: "Put qubit 2 in superposition. Now we have equal superposition of all 8 possible states: |000⟩, |001⟩, ..., |111⟩!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing between layers."
+                        },
+                        {
+                            code: "# Layer 2: Create entanglement",
+                            explanation: "Use CNOT gates to entangle the qubits."
+                        },
+                        {
+                            code: "qc.cx(0, 1)",
+                            explanation: "Entangle qubit 0 (control) with qubit 1 (target)."
+                        },
+                        {
+                            code: "qc.cx(1, 2)",
+                            explanation: "Entangle qubit 1 (control) with qubit 2 (target). Now all 3 qubits are entangled!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before measurement."
+                        },
+                        {
+                            code: "# Layer 3: Add a barrier for visualization",
+                            explanation: "Barriers don't affect computation but make circuit diagrams clearer."
+                        },
+                        {
+                            code: "qc.barrier()",
+                            explanation: "Add a visual barrier in the circuit diagram to separate computation from measurement."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before measurement."
+                        },
+                        {
+                            code: "# Measure all qubits",
+                            explanation: "Measure all 3 qubits to collapse the quantum state."
+                        },
+                        {
+                            code: "qc.measure([0, 1, 2], [0, 1, 2])",
+                            explanation: "Measure qubits 0, 1, 2 and store in classical bits 0, 1, 2 respectively."
+                        },
+                        {
+                            code: "",
+                            explanation: "Final spacing."
+                        },
+                        {
+                            code: "# Display the circuit",
+                            explanation: "Let's see what our 3-qubit circuit looks like!"
+                        },
+                        {
+                            code: "print(qc.draw())",
+                            explanation: "Print the circuit diagram showing all gates, entanglement, and measurements."
+                        },
+                        {
+                            code: "print(f'\\nCircuit depth: {qc.depth()}')",
+                            explanation: "Circuit depth is the longest path through the circuit - important for error rates on real quantum computers."
+                        },
+                        {
+                            code: "print(f'Total gates: {qc.size()}')",
+                            explanation: "Count total number of gates. More gates = more potential for errors on real hardware."
+                        }
+                    ]}
+                    output={`     ┌───┐          ░ ┌─┐      
+q_0: ┤ H ├──■───────░─┤M├──────
+     ├───┤┌─┴─┐     ░ └╥┘┌─┐   
+q_1: ┤ H ├┤ X ├──■──░──╫─┤M├───
+     ├───┤└───┘┌─┴─┐░  ║ └╥┘┌─┐
+q_2: ┤ H ├─────┤ X ├░──╫──╫─┤M├
+     └───┘     └───┘░  ║  ║ └╥┘
+c: 3/═══════════════════╩══╩══╩═
+                        0  1  2
+
+Circuit depth: 4
+Total gates: 8
+
+Explanation:
+- 3 H gates create superposition
+- 2 CNOT gates create entanglement
+- Barrier (░) separates computation from measurement
+- Depth of 4 means 4 time steps needed
+- This circuit creates a GHZ state: (|000⟩ + |111⟩)/√2`}
+                    language="python"
+                />
             </section>
 
             <div className="pt-24 flex justify-between">

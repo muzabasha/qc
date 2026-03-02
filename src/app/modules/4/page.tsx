@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
+import CodeBlock from '@/components/CodeBlock'
 
 export default function Module4() {
     const [isEntangled, setIsEntangled] = useState(false)
@@ -160,6 +161,131 @@ export default function Module4() {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Interactive Code Example */}
+            <section className="space-y-8">
+                <CodeBlock
+                    title="Creating Entangled Qubits (Bell State)"
+                    description="Learn how to create quantum entanglement using H and CNOT gates."
+                    code={[
+                        {
+                            code: "from qiskit import QuantumCircuit, transpile",
+                            explanation: "Import Qiskit components. We'll need 2 qubits for entanglement!"
+                        },
+                        {
+                            code: "from qiskit_aer import Aer",
+                            explanation: "Import simulator to run our entanglement circuit."
+                        },
+                        {
+                            code: "",
+                            explanation: "Empty line for organization."
+                        },
+                        {
+                            code: "# Create circuit with 2 qubits and 2 classical bits",
+                            explanation: "Entanglement requires at least 2 qubits. We need 2 classical bits to measure both."
+                        },
+                        {
+                            code: "qc = QuantumCircuit(2, 2)",
+                            explanation: "Initialize circuit with 2 qubits (both start in |00⟩) and 2 classical bits."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before creating entanglement."
+                        },
+                        {
+                            code: "# Step 1: Create superposition on first qubit",
+                            explanation: "First, we put qubit 0 into superposition. This is the setup for entanglement."
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Apply H gate to qubit 0. Now it's in state (|0⟩ + |1⟩)/√2. Qubit 1 is still |0⟩."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing between steps."
+                        },
+                        {
+                            code: "# Step 2: Entangle qubits with CNOT",
+                            explanation: "CNOT (Controlled-NOT) is the magic gate that creates entanglement!"
+                        },
+                        {
+                            code: "qc.cx(0, 1)",
+                            explanation: "Apply CNOT with qubit 0 as control, qubit 1 as target. This creates the Bell state (|00⟩ + |11⟩)/√2. The qubits are now entangled!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before measurement."
+                        },
+                        {
+                            code: "# Measure both qubits",
+                            explanation: "When we measure entangled qubits, their results are correlated!"
+                        },
+                        {
+                            code: "qc.measure([0, 1], [0, 1])",
+                            explanation: "Measure both qubits. If qubit 0 is 0, qubit 1 will also be 0. If qubit 0 is 1, qubit 1 will be 1. They're perfectly correlated!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before simulation."
+                        },
+                        {
+                            code: "# Simulate the entangled circuit",
+                            explanation: "Let's run this 1000 times to see the correlation."
+                        },
+                        {
+                            code: "simulator = Aer.get_backend('qasm_simulator')",
+                            explanation: "Get the simulator backend."
+                        },
+                        {
+                            code: "compiled = transpile(qc, simulator)",
+                            explanation: "Compile the circuit for execution."
+                        },
+                        {
+                            code: "job = simulator.run(compiled, shots=1000)",
+                            explanation: "Run 1000 shots to observe the entanglement pattern."
+                        },
+                        {
+                            code: "result = job.result()",
+                            explanation: "Get the simulation results."
+                        },
+                        {
+                            code: "counts = result.get_counts()",
+                            explanation: "Extract measurement counts. We should only see '00' and '11', never '01' or '10'!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Final spacing."
+                        },
+                        {
+                            code: "print(f'Entanglement results: {counts}')",
+                            explanation: "Print results. Notice: only '00' and '11' appear! The qubits are perfectly correlated - that's entanglement!"
+                        },
+                        {
+                            code: "print(f'\\nCircuit:\\n{qc.draw()}')",
+                            explanation: "Show the circuit diagram: H on qubit 0, then CNOT connecting both qubits."
+                        }
+                    ]}
+                    output={`Entanglement results: {'00': 514, '11': 486}
+
+Circuit:
+     ┌───┐     ┌─┐   
+q_0: ┤ H ├──■──┤M├───
+     └───┘┌─┴─┐└╥┘┌─┐
+q_1: ─────┤ X ├─╫─┤M├
+          └───┘ ║ └╥┘
+c: 2/═══════════╩══╩═
+                0  1
+
+Explanation:
+- We ONLY see '00' and '11', never '01' or '10'
+- This proves the qubits are entangled!
+- When one is measured as 0, the other is always 0
+- When one is measured as 1, the other is always 1
+- This correlation exists even if qubits are separated!
+- Einstein called this "spooky action at a distance"`}
+                    language="python"
+                />
             </section>
 
             <div className="pt-24 flex justify-between">

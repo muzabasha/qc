@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Cpu, Zap, CheckCircle } from 'lucide-react'
+import CodeBlock from '@/components/CodeBlock'
 
 export default function Module6() {
     const [activeAlgorithm, setActiveAlgorithm] = useState<number | null>(null)
@@ -383,6 +384,170 @@ export default function Module6() {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Interactive Code Example */}
+            <section className="space-y-8">
+                <CodeBlock
+                    title="Deutsch-Jozsa Algorithm: Constant vs Balanced"
+                    description="Implement the Deutsch-Jozsa algorithm that demonstrates quantum advantage."
+                    code={[
+                        {
+                            code: "from qiskit import QuantumCircuit, transpile",
+                            explanation: "Import Qiskit for implementing our first quantum algorithm!"
+                        },
+                        {
+                            code: "from qiskit_aer import Aer",
+                            explanation: "Import simulator to run the algorithm."
+                        },
+                        {
+                            code: "",
+                            explanation: "Empty line for organization."
+                        },
+                        {
+                            code: "def deutsch_jozsa_oracle(qc, oracle_type='balanced'):",
+                            explanation: "Define a function to create the oracle (the 'black box' function we're testing). It can be 'constant' or 'balanced'."
+                        },
+                        {
+                            code: "    if oracle_type == 'balanced':",
+                            explanation: "If balanced, the function returns 0 for half the inputs and 1 for the other half."
+                        },
+                        {
+                            code: "        qc.cx(0, 1)",
+                            explanation: "For balanced oracle, apply CNOT. This makes f(0)≠f(1)."
+                        },
+                        {
+                            code: "    # For constant, do nothing (f(0)=f(1)=0)",
+                            explanation: "For constant oracle, we don't apply any gates. This makes f(0)=f(1)=0."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing after function definition."
+                        },
+                        {
+                            code: "# Create circuit: 2 qubits (1 for input, 1 for output)",
+                            explanation: "Deutsch-Jozsa needs 2 qubits: one for the input bit, one for the oracle output."
+                        },
+                        {
+                            code: "qc = QuantumCircuit(2, 1)",
+                            explanation: "Initialize with 2 qubits and 1 classical bit (we only measure the first qubit)."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before algorithm steps."
+                        },
+                        {
+                            code: "# Step 1: Initialize second qubit to |1⟩",
+                            explanation: "The second qubit needs to start in |1⟩ for the algorithm to work."
+                        },
+                        {
+                            code: "qc.x(1)",
+                            explanation: "Apply X gate to qubit 1 to flip it from |0⟩ to |1⟩."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing between steps."
+                        },
+                        {
+                            code: "# Step 2: Apply Hadamard to both qubits",
+                            explanation: "H gates create superposition, allowing us to query both f(0) and f(1) simultaneously!"
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Put input qubit in superposition."
+                        },
+                        {
+                            code: "qc.h(1)",
+                            explanation: "Put output qubit in superposition. This creates the 'phase kickback' effect."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before oracle."
+                        },
+                        {
+                            code: "# Step 3: Apply the oracle",
+                            explanation: "The oracle is the black box function we're testing."
+                        },
+                        {
+                            code: "deutsch_jozsa_oracle(qc, oracle_type='balanced')",
+                            explanation: "Apply the oracle. Try changing 'balanced' to 'constant' to see different results!"
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing after oracle."
+                        },
+                        {
+                            code: "# Step 4: Apply Hadamard to first qubit again",
+                            explanation: "The second H gate extracts the answer through quantum interference."
+                        },
+                        {
+                            code: "qc.h(0)",
+                            explanation: "Apply H to qubit 0. This causes interference that reveals if the function is constant or balanced."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before measurement."
+                        },
+                        {
+                            code: "# Step 5: Measure first qubit",
+                            explanation: "The measurement result tells us the answer!"
+                        },
+                        {
+                            code: "qc.measure(0, 0)",
+                            explanation: "Measure qubit 0. Result 0 = constant function, Result 1 = balanced function."
+                        },
+                        {
+                            code: "",
+                            explanation: "Spacing before simulation."
+                        },
+                        {
+                            code: "# Run the algorithm",
+                            explanation: "Execute the circuit to get our answer."
+                        },
+                        {
+                            code: "simulator = Aer.get_backend('qasm_simulator')",
+                            explanation: "Get the simulator."
+                        },
+                        {
+                            code: "compiled = transpile(qc, simulator)",
+                            explanation: "Compile the circuit."
+                        },
+                        {
+                            code: "job = simulator.run(compiled, shots=1000)",
+                            explanation: "Run 1000 times (though the answer is deterministic!)."
+                        },
+                        {
+                            code: "result = job.result().get_counts()",
+                            explanation: "Get the results."
+                        },
+                        {
+                            code: "",
+                            explanation: "Final spacing."
+                        },
+                        {
+                            code: "print(f'Result: {result}')",
+                            explanation: "Print the result. '1' means balanced, '0' means constant."
+                        },
+                        {
+                            code: "print('Function is BALANCED!' if '1' in result else 'Function is CONSTANT!')",
+                            explanation: "Interpret the result. Classical computers need 2 queries, quantum needs only 1!"
+                        }
+                    ]}
+                    output={`Result: {'1': 1000}
+Function is BALANCED!
+
+Explanation:
+- We measured '1' with 100% certainty
+- This means the function is BALANCED
+- Classical computer needs 2 queries to be certain
+- Quantum computer needs only 1 query!
+- This is quantum advantage in action!
+
+Try changing oracle_type to 'constant':
+Result: {'0': 1000}
+Function is CONSTANT!`}
+                    language="python"
+                />
             </section>
 
             <div className="pt-24 flex justify-between">
