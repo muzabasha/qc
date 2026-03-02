@@ -32,31 +32,31 @@ export default function CircuitBuilder() {
         <div className="p-8 bg-slate-800 rounded-xl text-white shadow-lg border border-slate-700">
             <h3 className="text-3xl mb-8 font-bold text-slate-200">Quantum Circuit</h3>
 
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex gap-6">
+            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 mb-10">
+                <div className="flex flex-wrap gap-4 md:gap-6">
                     {GATES.map((gate) => (
                         <motion.button
                             key={gate}
-                            whileHover={{ scale: 1.1 }}
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleApply(gate)}
-                            className="w-20 h-20 flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-lg text-4xl font-bold border-b-8 border-indigo-800 transition-colors"
+                            className="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 rounded-2xl shadow-xl text-4xl md:text-5xl font-black border-b-8 border-indigo-800 transition-all active:border-b-0 active:translate-y-2"
                         >
                             {gate}
                         </motion.button>
                     ))}
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-4 w-full xl:w-auto">
                     <button
                         onClick={handleMeasure}
-                        className="px-8 py-4 text-2xl bg-emerald-600 hover:bg-emerald-500 font-bold rounded-lg shadow border-b-8 border-emerald-800"
+                        className="flex-1 xl:flex-none px-10 py-5 text-2xl md:text-3xl bg-emerald-600 hover:bg-emerald-500 font-black rounded-2xl shadow-xl border-b-8 border-emerald-800 active:border-b-0 active:translate-y-2 transition-all"
                     >
                         Measure
                     </button>
                     <button
                         onClick={handleReset}
-                        className="px-8 py-4 text-2xl bg-red-600 hover:bg-red-500 font-bold rounded-lg shadow border-b-8 border-red-800"
+                        className="flex-1 xl:flex-none px-10 py-5 text-2xl md:text-3xl bg-red-600 hover:bg-red-500 font-black rounded-2xl shadow-xl border-b-8 border-red-800 active:border-b-0 active:translate-y-2 transition-all"
                     >
                         Reset
                     </button>
