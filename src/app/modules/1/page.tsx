@@ -28,7 +28,7 @@ export default function Module1() {
     const [qOutcome, setQOutcome] = useState<number | null>(null)
 
     return (
-        <div className="max-w-[1600px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
+        <div className="max-w-[1400px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-12 pt-8">
                 <h1 className="text-8xl font-extrabold text-white mb-6">Module 1: Foundations</h1>
                 <p className="text-4xl text-slate-400">Thinking Quantum: Moving from Classical Certainty to Quantum Probability</p>
@@ -164,7 +164,7 @@ export default function Module1() {
                             <div className="flex flex-col sm:flex-row justify-between items-center bg-slate-900 p-8 rounded-2xl gap-8">
                                 <button
                                     onClick={() => setQOutcome(measure())}
-                                    className="w-full sm:w-auto px-10 py-6 text-3xl bg-indigo-600 hover:bg-indigo-500 font-bold rounded-xl shadow-xl border-b-[6px] border-indigo-800 active:border-b-0 active:translate-y-[6px] transition-all text-white"
+                                    className="w-full sm:w-auto px-10 py-6 text-3xl bg-indigo-600 hover:bg-indigo-500 font-bold rounded-xl shadow-xl border-b-6 border-indigo-800 active:border-b-0 active:translate-y-[6px] transition-all text-white"
                                 >
                                     Measure State!
                                 </button>

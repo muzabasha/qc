@@ -45,7 +45,7 @@ export default function Module2() {
     const [superPositionState, setSuperpositionState] = useState<'Wave' | 'Particle'>('Wave')
 
     return (
-        <div className="max-w-[1600px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
+        <div className="max-w-[1400px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-12 pt-8">
                 <h1 className="text-8xl font-extrabold text-white mb-6">Module 2: The Core of Quantum Mechanics</h1>
                 <p className="text-4xl text-slate-400">Superposition and the Collapse of Probability</p>
@@ -152,10 +152,10 @@ export default function Module2() {
                             </p>
 
                             <div className="flex gap-4 mb-12">
-                                <button onClick={() => runSimulation(1)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-[6px] border-indigo-800 active:border-b-0 active:translate-y-2">Run 1x</button>
-                                <button onClick={() => runSimulation(10)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-[6px] border-indigo-800 active:border-b-0 active:translate-y-2">Run 10x</button>
-                                <button onClick={() => runSimulation(100)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-[6px] border-indigo-800 active:border-b-0 active:translate-y-2">Run 100x</button>
-                                <button onClick={() => runSimulation(1000)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-[6px] border-indigo-800 active:border-b-0 active:translate-y-2">Run 1000x</button>
+                                <button onClick={() => runSimulation(1)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-6 border-indigo-800 active:border-b-0 active:translate-y-2">Run 1x</button>
+                                <button onClick={() => runSimulation(10)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-6 border-indigo-800 active:border-b-0 active:translate-y-2">Run 10x</button>
+                                <button onClick={() => runSimulation(100)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-6 border-indigo-800 active:border-b-0 active:translate-y-2">Run 100x</button>
+                                <button onClick={() => runSimulation(1000)} className="flex-1 py-6 bg-indigo-600 hover:bg-indigo-500 font-bold text-2xl text-white rounded-xl shadow-lg border-b-6 border-indigo-800 active:border-b-0 active:translate-y-2">Run 1000x</button>
                             </div>
 
                             <div className="flex-1 bg-slate-950 rounded-2xl p-8 border border-slate-700 flex flex-col justify-end gap-12 relative">

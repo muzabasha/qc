@@ -18,7 +18,7 @@ const BlochSphere = dynamic(() => import('@/components/quantum/BlochSphere'), {
 
 export default function Home() {
   return (
-    <main className="max-w-[1600px] w-full mx-auto p-4 md:p-8">
+    <main className="max-w-[1400px] w-full mx-auto p-4 md:p-8">
       {/* Header section */}
       <header className="mb-12 border-b border-slate-800 pb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
         <div>

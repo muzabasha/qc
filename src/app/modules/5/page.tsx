@@ -8,7 +8,7 @@ import 'katex/dist/katex.min.css'
 
 export default function Module5() {
     return (
-        <div className="max-w-[1600px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
+        <div className="max-w-[1400px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-12 pt-8">
                 <h1 className="text-8xl font-extrabold text-white mb-6">Module 5: Quantum Circuits</h1>
                 <p className="text-4xl text-slate-400">Wiring up the Quantum Future</p>
@@ -41,9 +41,9 @@ export default function Module5() {
                             Quantum Teleportation isn't beaming physical matter like Star Trek. Instead, it "teleports" the exact quantum state information of a qubit from Alice to Bob using an Entangled pair (a Bell State) as the bridge!
                         </p>
 
-                        <div className="flex-1 bg-slate-950 rounded-2xl border-2 border-slate-700 p-8 flex flex-col justify-center items-center shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                        <div className="flex-1 bg-slate-950 rounded-2xl border-2 border-slate-700 p-8 flex flex-col justify-center items-center shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-x-auto">
 
-                            <div className="flex flex-col gap-12 w-full max-w-[800px] font-mono text-3xl font-bold text-slate-300">
+                            <div className="flex flex-col gap-12 w-full min-w-[700px] max-w-[800px] font-mono text-3xl font-bold text-slate-300">
                                 {/* Alice Qubit 1 */}
                                 <div className="flex items-center gap-6">
                                     <span className="text-cyan-400">|𝜓⟩ Alice</span>

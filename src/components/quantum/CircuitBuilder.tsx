@@ -67,7 +67,7 @@ export default function CircuitBuilder() {
             <div className="flex items-center gap-4 bg-slate-900 p-6 rounded-xl overflow-x-auto min-h-[160px]">
                 <span className="font-mono text-4xl mr-6 text-emerald-400 font-bold">|0⟩</span>
 
-                <div className="h-1 bg-slate-600 flex-1 relative flex items-center min-w-[300px]">
+                <div className="h-1 bg-slate-600 relative flex items-center" style={{ minWidth: `${Math.max(300, (circuit.length + 2) * 80)}px` }}>
                     {circuit.map((gate, idx) => (
                         <motion.div
                             key={idx}

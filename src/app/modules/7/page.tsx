@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Module7() {
     return (
-        <div className="max-w-[1600px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
+        <div className="max-w-[1400px] w-full mx-auto p-12 space-y-24 pb-48 animate-in fade-in duration-700 relative">
             <header className="border-b-4 border-slate-800 pb-12 pt-8">
                 <h1 className="text-8xl font-extrabold text-white mb-6">Module 7: Real-World Applications</h1>
                 <p className="text-4xl text-slate-400">Where will Quantum make an impact?</p>
