@@ -37,66 +37,66 @@ export default function Module5() {
                         </div>
                     </div>
 
-                    <div className="bg-slate-800 p-8 md:p-12 rounded-[32px] border border-slate-700 shadow-2xl flex flex-col space-y-8">
-                        <h3 className="text-4xl font-bold text-white">The Teleportation Circuit</h3>
-                        <p className="text-xl text-slate-400 font-medium">
+                    <div className="bg-slate-800 p-4 md:p-8 lg:p-12 rounded-[32px] border border-slate-700 shadow-2xl flex flex-col space-y-6 md:space-y-8">
+                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">The Teleportation Circuit</h3>
+                        <p className="text-base md:text-lg lg:text-xl text-slate-400 font-medium">
                             Quantum Teleportation doesn't move matter—it "beams" the exact quantum state information using an entangled bridge!
                         </p>
 
-                        <div className="flex-1 bg-slate-950 rounded-[24px] border-2 border-slate-800 p-8 md:p-12 flex flex-col justify-center items-center shadow-inner relative overflow-x-auto scrollbar-hide">
-                            <div className="w-full min-w-[700px] py-12 space-y-20 relative">
+                        <div className="flex-1 bg-slate-950 rounded-[24px] border-2 border-slate-800 p-4 md:p-6 lg:p-12 flex flex-col justify-center items-center shadow-inner relative overflow-x-auto scrollbar-hide">
+                            <div className="w-full min-w-[280px] sm:min-w-[400px] md:min-w-[500px] lg:min-w-[700px] py-6 md:py-12 space-y-12 md:space-y-20 relative">
 
                                 {/* Alice Section Label */}
-                                <div className="absolute top-0 left-0 text-emerald-500 font-black text-sm uppercase tracking-widest bg-emerald-500/10 px-4 py-1 rounded-full border border-emerald-500/20">Alice (Sender)</div>
-                                <div className="absolute top-0 right-[35%] text-indigo-400 font-black text-sm uppercase tracking-widest bg-indigo-500/10 px-4 py-1 rounded-full border border-indigo-500/20 text-center">Classical Channel</div>
-                                <div className="absolute top-0 right-0 text-blue-400 font-black text-sm uppercase tracking-widest bg-blue-500/10 px-4 py-1 rounded-full border border-blue-500/20">Bob (Receiver)</div>
+                                <div className="absolute top-0 left-0 text-emerald-500 font-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wider bg-emerald-500/10 px-2 sm:px-3 md:px-4 py-1 rounded-full border border-emerald-500/20 whitespace-nowrap">Alice</div>
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 text-indigo-400 font-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wider bg-indigo-500/10 px-2 sm:px-3 md:px-4 py-1 rounded-full border border-indigo-500/20 text-center whitespace-nowrap hidden sm:block">Classical</div>
+                                <div className="absolute top-0 right-0 text-blue-400 font-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wider bg-blue-500/10 px-2 sm:px-3 md:px-4 py-1 rounded-full border border-blue-500/20 whitespace-nowrap">Bob</div>
 
                                 {/* Wire 1: Input State */}
                                 <div className="relative h-1">
                                     <div className="absolute inset-0 bg-slate-800 rounded-full"></div>
-                                    <div className="absolute -left-4 -top-8 text-cyan-400 text-xs font-black uppercase">Input |𝜓⟩</div>
+                                    <div className="absolute -left-2 sm:-left-4 -top-6 sm:-top-8 text-cyan-400 text-[10px] sm:text-xs font-black uppercase">|𝜓⟩</div>
 
                                     {/* Alice's Part for Q1 */}
-                                    <div className="absolute top-1/2 left-[10%] -translate-y-1/2 w-16 h-1 bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)] z-10"></div>
-                                    <div className="absolute top-1/2 left-[25%] -translate-y-1/2 w-14 h-14 bg-slate-200 text-slate-900 rounded-full border-4 border-slate-400 flex items-center justify-center text-xl font-black z-20 shadow-xl">●</div>
-                                    <div className="absolute top-1/2 left-[40%] -translate-y-1/2 w-14 h-14 bg-emerald-600 text-white rounded-xl border-b-4 border-emerald-800 flex items-center justify-center text-2xl font-black z-20 shadow-xl">H</div>
-                                    <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-16 h-16 bg-slate-800 text-slate-400 rounded-lg border-2 border-slate-700 flex items-center justify-center text-2xl font-black z-20 shadow-xl italic">M</div>
+                                    <div className="absolute top-1/2 left-[10%] -translate-y-1/2 w-8 sm:w-12 md:w-16 h-1 bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)] z-10"></div>
+                                    <div className="absolute top-1/2 left-[25%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-slate-200 text-slate-900 rounded-full border-2 sm:border-4 border-slate-400 flex items-center justify-center text-base sm:text-lg md:text-xl font-black z-20 shadow-xl">●</div>
+                                    <div className="absolute top-1/2 left-[40%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-emerald-600 text-white rounded-xl border-b-2 sm:border-b-4 border-emerald-800 flex items-center justify-center text-lg sm:text-xl md:text-2xl font-black z-20 shadow-xl">H</div>
+                                    <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-slate-800 text-slate-400 rounded-lg border-2 border-slate-700 flex items-center justify-center text-lg sm:text-xl md:text-2xl font-black z-20 shadow-xl italic">M</div>
 
                                     {/* Connection Line to Bob for Q1 result */}
-                                    <div className="absolute top-1/2 left-[60%] right-[15%] h-1 border-t-4 border-dashed border-indigo-500/40 -translate-y-1/2 z-0"></div>
+                                    <div className="absolute top-1/2 left-[60%] right-[15%] h-1 border-t-2 sm:border-t-4 border-dashed border-indigo-500/40 -translate-y-1/2 z-0"></div>
                                 </div>
 
                                 {/* Wire 2: Alice's half of Bell Pair */}
                                 <div className="relative h-1">
                                     <div className="absolute inset-0 bg-slate-800 rounded-full"></div>
-                                    <div className="absolute -left-4 -top-8 text-emerald-400 text-xs font-black uppercase">Bell Pair</div>
+                                    <div className="absolute -left-2 sm:-left-4 -top-6 sm:-top-8 text-emerald-400 text-[10px] sm:text-xs font-black uppercase">Bell</div>
 
                                     {/* CNOT link (Vertical) */}
-                                    <div className="absolute top-[-80px] bottom-0 left-[25%] w-1 bg-indigo-500/40 z-0"></div>
-                                    <div className="absolute top-1/2 left-[25%] -translate-y-1/2 w-14 h-14 bg-indigo-600 text-white rounded-full border-b-4 border-indigo-800 flex items-center justify-center text-3xl font-black z-20 shadow-xl">⊕</div>
+                                    <div className="absolute top-[-48px] sm:top-[-60px] md:top-[-80px] bottom-0 left-[25%] w-1 bg-indigo-500/40 z-0"></div>
+                                    <div className="absolute top-1/2 left-[25%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-indigo-600 text-white rounded-full border-b-2 sm:border-b-4 border-indigo-800 flex items-center justify-center text-xl sm:text-2xl md:text-3xl font-black z-20 shadow-xl">⊕</div>
 
-                                    <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-16 h-16 bg-slate-800 text-slate-400 rounded-lg border-2 border-slate-700 flex items-center justify-center text-2xl font-black z-20 shadow-xl italic">M</div>
+                                    <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-slate-800 text-slate-400 rounded-lg border-2 border-slate-700 flex items-center justify-center text-lg sm:text-xl md:text-2xl font-black z-20 shadow-xl italic">M</div>
 
                                     {/* Connection Line to Bob for Q2 result */}
-                                    <div className="absolute top-1/2 left-[60%] right-[30%] h-1 border-t-4 border-dashed border-indigo-500/40 -translate-y-1/2 z-0"></div>
+                                    <div className="absolute top-1/2 left-[60%] right-[30%] h-1 border-t-2 sm:border-t-4 border-dashed border-indigo-500/40 -translate-y-1/2 z-0"></div>
                                 </div>
 
                                 {/* Wire 3: Bob's half of Bell Pair */}
                                 <div className="relative h-1">
                                     <div className="absolute inset-0 bg-slate-800 rounded-full"></div>
-                                    <div className="absolute -left-4 -top-8 text-blue-400 text-xs font-black uppercase">Bob's Qubit</div>
+                                    <div className="absolute -left-2 sm:-left-4 -top-6 sm:-top-8 text-blue-400 text-[10px] sm:text-xs font-black uppercase">Bob</div>
 
                                     {/* Entanglement Bridge (Alice and Bob) */}
                                     <div className="absolute left-[5%] right-[90%] top-1/2 -translate-y-1/2 h-1 bg-linear-to-r from-emerald-500 to-transparent"></div>
 
                                     {/* Bob's Corrections */}
-                                    <div className="absolute top-1/2 right-[30%] -translate-y-1/2 w-14 h-14 bg-blue-600 text-white rounded-xl border-b-4 border-blue-800 flex items-center justify-center text-2xl font-black z-20 shadow-xl group/gate">
+                                    <div className="absolute top-1/2 right-[30%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-blue-600 text-white rounded-xl border-b-2 sm:border-b-4 border-blue-800 flex items-center justify-center text-lg sm:text-xl md:text-2xl font-black z-20 shadow-xl group/gate">
                                         X
-                                        <div className="absolute top-[-40px] left-1/2 -translate-x-1/2 h-10 border-l-2 border-dashed border-indigo-500/40"></div>
+                                        <div className="absolute top-[-24px] sm:top-[-32px] md:top-[-40px] left-1/2 -translate-x-1/2 h-6 sm:h-8 md:h-10 border-l-2 border-dashed border-indigo-500/40"></div>
                                     </div>
-                                    <div className="absolute top-1/2 right-[15%] -translate-y-1/2 w-14 h-14 bg-blue-600 text-white rounded-xl border-b-4 border-blue-800 flex items-center justify-center text-2xl font-black z-20 shadow-xl">
+                                    <div className="absolute top-1/2 right-[15%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-blue-600 text-white rounded-xl border-b-2 sm:border-b-4 border-blue-800 flex items-center justify-center text-lg sm:text-xl md:text-2xl font-black z-20 shadow-xl">
                                         Z
-                                        <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 h-[120px] border-l-2 border-dashed border-indigo-500/40"></div>
+                                        <div className="absolute top-[-72px] sm:top-[-96px] md:top-[-120px] left-1/2 -translate-x-1/2 h-[72px] sm:h-[96px] md:h-[120px] border-l-2 border-dashed border-indigo-500/40"></div>
                                     </div>
 
                                     {/* Final Output */}
@@ -104,7 +104,7 @@ export default function Module5() {
                                         initial={{ scale: 0.8, opacity: 0.5 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                                        className="absolute top-1/2 right-0 -translate-y-1/2 w-20 h-20 bg-cyan-500 text-white rounded-full flex items-center justify-center text-2xl font-black z-30 shadow-[0_0_30px_rgba(6,182,212,0.6)] border-4 border-white/20"
+                                        className="absolute top-1/2 right-0 -translate-y-1/2 w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-cyan-500 text-white rounded-full flex items-center justify-center text-lg sm:text-xl md:text-2xl font-black z-30 shadow-[0_0_30px_rgba(6,182,212,0.6)] border-2 sm:border-4 border-white/20"
                                     >
                                         |𝜓⟩
                                     </motion.div>
