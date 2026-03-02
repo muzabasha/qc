@@ -31,6 +31,9 @@ export default function Home() {
           </p>
         </div>
         <div className="flex flex-wrap gap-4 w-full xl:w-auto">
+          <Link href="/research" className="flex-1 xl:flex-none px-6 py-3 text-base bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl shadow-xl border-b-4 border-purple-800 transition-all active:border-b-0 active:translate-y-1 text-center">
+            Research Roadmap
+          </Link>
           <a
             href="https://scholar-sparkle-web.lovable.app/"
             target="_blank"
