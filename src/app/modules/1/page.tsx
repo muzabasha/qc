@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { prob } from '@/physics/math'
 import { useQuantumStore } from '@/store/useQuantumStore'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { BlockMath } from 'react-katex'
 import 'katex/dist/katex.min.css'
 
