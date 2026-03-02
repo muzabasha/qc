@@ -35,8 +35,9 @@ export default function ModulesLayout({ children }: { children: React.ReactNode 
         <div className="flex flex-col md:flex-row h-screen bg-slate-950 text-slate-100 overflow-hidden">
             {/* Sidebar */}
             <aside
-                className={`bg-slate-900 border-r border-slate-800 shrink-0 flex flex-col h-full overflow-y-auto z-30 shadow-2xl transition-all duration-300 ${isCollapsed ? 'w-0 md:w-24 overflow-hidden' : 'fixed md:relative inset-y-0 left-0 w-full sm:w-80 md:w-[400px]'}`}
+                className={`bg-slate-900 border-r border-slate-800 shrink-0 flex flex-col h-full overflow-y-auto z-30 shadow-2xl transition-all duration-300 ease-in-out ${isCollapsed ? 'w-0 md:w-24 overflow-hidden' : 'fixed md:relative inset-y-0 left-0 w-full sm:w-80 md:w-[400px]'}`}
                 aria-label="Course navigation"
+                aria-hidden={isCollapsed}
             >
                 <div className="p-8 border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-10 flex flex-col">
                     <div className="flex justify-between items-center mb-6">
@@ -47,10 +48,25 @@ export default function ModulesLayout({ children }: { children: React.ReactNode 
                         )}
                         <button
                             onClick={() => setIsCollapsed(!isCollapsed)}
-                            className="p-3 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-300 transition-colors mx-auto"
-                            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+                            className={`group relative p-3 rounded-xl transition-all duration-300 ${isCollapsed
+                                ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500/70 mx-auto'
+                                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white'
+                                }`}
+                            aria-label={isCollapsed ? "Expand sidebar to show navigation" : "Collapse sidebar to focus on content"}
+                            aria-expanded={!isCollapsed}
+                            title={isCollapsed ? "Expand Sidebar (Show Menu)" : "Collapse Sidebar (Hide Menu)"}
                         >
-                            {isCollapsed ? <Menu size={32} /> : <X size={32} />}
+                            <div className="relative w-8 h-8 flex items-center justify-center">
+                                {isCollapsed ? (
+                                    <Menu size={32} className="animate-in fade-in zoom-in duration-300" />
+                                ) : (
+                                    <X size={32} className="animate-in fade-in zoom-in duration-300" />
+                                )}
+                            </div>
+                            {/* Tooltip */}
+                            <span className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-950 text-slate-200 text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-slate-700 shadow-xl z-50">
+                                {isCollapsed ? "Show Menu" : "Hide Menu"}
+                            </span>
                         </button>
                     </div>
 
@@ -89,15 +105,23 @@ export default function ModulesLayout({ children }: { children: React.ReactNode 
                                 title={isCollapsed ? `Module ${mod.id}: ${mod.title}` : undefined}
                                 aria-label={`Module ${mod.id}: ${mod.title}`}
                                 aria-current={isActive ? 'page' : undefined}
-                                className={`flex items-center gap-6 p-5 rounded-2xl transition-all border-2 text-2xl font-bold group ${isActive
-                                    ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
-                                    : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:border-slate-700'
+                                className={`flex items-center gap-6 p-5 rounded-2xl transition-all duration-300 border-2 text-2xl font-bold group relative ${isCollapsed ? 'justify-center' : ''
+                                    } ${isActive
+                                        ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
+                                        : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:border-slate-700'
                                     }`}
                             >
                                 <div className={`p-3 rounded-xl transition-all ${isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/50' : 'bg-slate-800 text-slate-500 group-hover:text-slate-300'}`}>
                                     <Icon size={32} className="shrink-0" aria-hidden="true" />
                                 </div>
                                 {!isCollapsed && <span className="whitespace-nowrap">Module {mod.id}</span>}
+
+                                {/* Tooltip for collapsed state */}
+                                {isCollapsed && (
+                                    <span className="absolute left-full ml-4 px-3 py-2 bg-slate-950 text-slate-200 text-base rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-slate-700 shadow-xl z-50">
+                                        Module {mod.id}: {mod.title}
+                                    </span>
+                                )}
                             </Link>
                         )
                     })}
@@ -116,9 +140,13 @@ export default function ModulesLayout({ children }: { children: React.ReactNode 
             {isCollapsed && (
                 <button
                     onClick={() => setIsCollapsed(false)}
-                    className="fixed top-4 left-4 z-40 p-3 bg-indigo-600 rounded-xl text-white shadow-xl md:hidden"
+                    className="fixed top-4 left-4 z-40 p-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white shadow-xl hover:shadow-2xl transition-all duration-300 md:hidden animate-in fade-in slide-in-from-left-5 group"
+                    aria-label="Open navigation menu"
                 >
-                    <Menu size={24} />
+                    <Menu size={28} className="group-hover:scale-110 transition-transform duration-200" />
+                    <span className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-950 text-slate-200 text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap border border-slate-700 shadow-xl">
+                        Open Menu
+                    </span>
                 </button>
             )}
 
