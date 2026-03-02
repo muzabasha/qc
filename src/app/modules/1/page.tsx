@@ -89,7 +89,7 @@ export default function Module1() {
                         <button
                             onClick={handleFlip}
                             disabled={coinState === 'Spinning...'}
-                            className="mt-20 px-16 py-6 text-4xl bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-2xl border-b-8 border-blue-800 active:border-b-0 active:translate-y-2 transition-all"
+                            className="mt-20 px-10 md:px-16 py-4 md:py-6 text-2xl md:text-4xl bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-2xl border-b-8 border-blue-800 active:border-b-0 active:translate-y-2 transition-all"
                         >
                             {coinState === 'Spinning...' ? 'Observing...' : 'Flip Coin'}
                         </button>

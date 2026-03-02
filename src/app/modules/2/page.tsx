@@ -102,9 +102,9 @@ export default function Module2() {
 
                         <button
                             onClick={() => setSuperpositionState(prev => prev === 'Wave' ? 'Particle' : 'Wave')}
-                            className={`px-16 py-6 text-4xl font-black rounded-2xl shadow-2xl border-b-8 active:border-b-0 active:translate-y-2 transition-all ${superPositionState === 'Wave'
-                                    ? 'bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-800'
-                                    : 'bg-indigo-600 hover:bg-indigo-500 text-white border-indigo-800'
+                            className={`px-10 md:px-16 py-4 md:py-6 text-2xl md:text-4xl font-black rounded-2xl shadow-2xl border-b-8 active:border-b-0 active:translate-y-2 transition-all ${superPositionState === 'Wave'
+                                ? 'bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-800'
+                                : 'bg-indigo-600 hover:bg-indigo-500 text-white border-indigo-800'
                                 }`}
                         >
                             {superPositionState === 'Wave' ? 'Measure System' : 'Reset to Superposition'}

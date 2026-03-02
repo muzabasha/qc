@@ -50,13 +50,13 @@ export default function CircuitBuilder() {
                 <div className="flex flex-wrap gap-4 w-full xl:w-auto">
                     <button
                         onClick={handleMeasure}
-                        className="flex-1 xl:flex-none px-10 py-5 text-2xl md:text-3xl bg-emerald-600 hover:bg-emerald-500 font-black rounded-2xl shadow-xl border-b-8 border-emerald-800 active:border-b-0 active:translate-y-2 transition-all"
+                        className="flex-1 xl:flex-none px-6 md:px-10 py-4 md:py-5 text-xl md:text-3xl bg-emerald-600 hover:bg-emerald-500 font-black rounded-2xl shadow-xl border-b-8 border-emerald-800 active:border-b-0 active:translate-y-2 transition-all"
                     >
                         Measure
                     </button>
                     <button
                         onClick={handleReset}
-                        className="flex-1 xl:flex-none px-10 py-5 text-2xl md:text-3xl bg-red-600 hover:bg-red-500 font-black rounded-2xl shadow-xl border-b-8 border-red-800 active:border-b-0 active:translate-y-2 transition-all"
+                        className="flex-1 xl:flex-none px-6 md:px-10 py-4 md:py-5 text-xl md:text-3xl bg-red-600 hover:bg-red-500 font-black rounded-2xl shadow-xl border-b-8 border-red-800 active:border-b-0 active:translate-y-2 transition-all"
                     >
                         Reset
                     </button>
