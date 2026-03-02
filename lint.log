@@ -1,0 +1,135 @@
+﻿
+> quantum-learning-app@0.1.0 lint
+> eslint
+
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\1\page.tsx
+   25:20   warning  'beta' is assigned a value but never used                        @typescript-eslint/no-unused-vars
+   45:72   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   45:189  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  121:179  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  121:202  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\2\page.tsx
+   4:18   warning  'AnimatePresence' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  12:26   warning  'measure' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  25:11   warning  'p1' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+  62:143  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react/no-unescaped-entities
+  94:38   error    Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\2\page.tsx:94:38
+  92 |                                     className="text-8xl font-black bg-white rounded-full w-48 h-48 flex items-center justify-center text-slate-900 shadow-[0_0_50px_rgba(255,255,255,1)]"
+  93 |                                 >
+> 94 |                                     {Math.random() > 0.5 ? '0' : '1'}
+     |                                      ^^^^^^^^^^^^^ Cannot call impure function
+  95 |                                 </motion.div>
+  96 |                             )}
+  97 |  react-hooks/purity
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\3\page.tsx
+   4:10  warning  'motion' is defined but never used                               @typescript-eslint/no-unused-vars
+  19:99  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  99:74  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\4\page.tsx
+   4:18   warning  'AnimatePresence' is defined but never used                      @typescript-eslint/no-unused-vars
+  55:252  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  55:281  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\5\page.tsx
+   5:10   warning  'motion' is defined but never used                               @typescript-eslint/no-unused-vars
+  41:54   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  41:109  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  41:119  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\6\page.tsx
+  31:70   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  31:83   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  43:109  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  58:96   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  58:104  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  70:109  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  90:76   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  90:228  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  90:254  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\7\page.tsx
+  33:254  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  44:29   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  44:48   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\8\page.tsx
+  13:63   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react/no-unescaped-entities
+  58:48   error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\8\page.tsx:58:48
+  56 |                                     className="absolute bg-white/30 rounded-full"
+  57 |                                     style={{
+> 58 |                                         width: Math.random() * 40 + 'px',
+     |                                                ^^^^^^^^^^^^^ Cannot call impure function
+  59 |                                         height: Math.random() * 40 + 'px',
+  60 |                                         left: Math.random() * 100 + '%',
+  61 |                                         top: Math.random() * 100 + '%',                        react-hooks/purity
+  59:49   error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\8\page.tsx:59:49
+  57 |                                     style={{
+  58 |                                         width: Math.random() * 40 + 'px',
+> 59 |                                         height: Math.random() * 40 + 'px',
+     |                                                 ^^^^^^^^^^^^^ Cannot call impure function
+  60 |                                         left: Math.random() * 100 + '%',
+  61 |                                         top: Math.random() * 100 + '%',
+  62 |                                         animation: `spin ${Math.random() * 2 + 0.5}s infinite linear`,  react-hooks/purity
+  60:47   error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\8\page.tsx:60:47
+  58 |                                         width: Math.random() * 40 + 'px',
+  59 |                                         height: Math.random() * 40 + 'px',
+> 60 |                                         left: Math.random() * 100 + '%',
+     |                                               ^^^^^^^^^^^^^ Cannot call impure function
+  61 |                                         top: Math.random() * 100 + '%',
+  62 |                                         animation: `spin ${Math.random() * 2 + 0.5}s infinite linear`,
+  63 |                                     }}          react-hooks/purity
+  61:46   error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\8\page.tsx:61:46
+  59 |                                         height: Math.random() * 40 + 'px',
+  60 |                                         left: Math.random() * 100 + '%',
+> 61 |                                         top: Math.random() * 100 + '%',
+     |                                              ^^^^^^^^^^^^^ Cannot call impure function
+  62 |                                         animation: `spin ${Math.random() * 2 + 0.5}s infinite linear`,
+  63 |                                     }}
+  64 |                                 />                                                  react-hooks/purity
+  62:60   error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\app\modules\8\page.tsx:62:60
+  60 |                                         left: Math.random() * 100 + '%',
+  61 |                                         top: Math.random() * 100 + '%',
+> 62 |                                         animation: `spin ${Math.random() * 2 + 0.5}s infinite linear`,
+     |                                                            ^^^^^^^^^^^^^ Cannot call impure function
+  63 |                                     }}
+  64 |                                 />
+  65 |                             ))}                                                                               react-hooks/purity
+  78:131  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react/no-unescaped-entities
+  78:145  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react/no-unescaped-entities
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\components\quantum\BlochSphere.tsx
+  4:18  warning  'useFrame' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Contribution_REVA_2026\ResourcePerson\QC\quantum-learning-app\src\store\useQuantumStore.ts
+  2:41  warning  'magnitude' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 42 problems (33 errors, 9 warnings)
+
