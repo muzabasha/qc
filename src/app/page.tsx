@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import AnimatedMath from '@/components/math/AnimatedMath'
 import CircuitBuilder from '@/components/quantum/CircuitBuilder'
@@ -39,6 +40,13 @@ export default function Home() {
           </a>
         </div>
       </header>
+
+      <div className="mb-12 flex justify-center">
+        <Link href="/modules/1" className="px-16 py-8 bg-emerald-600 hover:bg-emerald-500 text-white text-4xl font-black rounded-3xl shadow-[0_0_50px_rgba(16,185,129,0.5)] border-b-[8px] border-emerald-800 transition-all active:border-b-0 active:translate-y-2 group flex items-center gap-6">
+          Start The Interactive Course
+          <span className="group-hover:translate-x-2 transition-transform">→</span>
+        </Link>
+      </div>
 
       {/* Main interactive grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
