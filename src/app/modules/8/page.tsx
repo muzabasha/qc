@@ -96,7 +96,7 @@ export default function Module8() {
                 <p className="text-3xl text-slate-300 mb-12">
                     You have journeyed from the basics of flipping a quantum coin, through mathematics and circuits, to understanding real hardware trends.
                 </p>
-                <Link href="/" className="px-12 py-6 bg-indigo-600 hover:bg-indigo-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-[8px] border-indigo-800 transition-all active:border-b-0 active:translate-y-2">
+                <Link href="/" className="px-12 py-6 bg-indigo-600 hover:bg-indigo-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-8 border-indigo-800 transition-all active:border-b-0 active:translate-y-2">
                     Return to Dashboard
                 </Link>
             </div>

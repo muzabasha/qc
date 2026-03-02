@@ -23,7 +23,7 @@ export default function ModulesLayout({ children }: { children: React.ReactNode 
     return (
         <div className="flex flex-col md:flex-row h-screen bg-slate-950 text-slate-100 overflow-hidden">
             {/* Sidebar */}
-            <aside className="w-full md:w-96 bg-slate-900 border-r border-slate-800 flex-shrink-0 flex flex-col h-full overflow-y-auto z-20 shadow-2xl">
+            <aside className="w-full md:w-96 bg-slate-900 border-r border-slate-800 shrink-0 flex flex-col h-full overflow-y-auto z-20 shadow-2xl">
                 <div className="p-8 border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-10 flex flex-col">
                     <Link href="/" className="text-4xl font-extrabold bg-linear-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
                         Quantum Lab
@@ -51,8 +51,8 @@ export default function ModulesLayout({ children }: { children: React.ReactNode 
                                 key={mod.id}
                                 href={`/modules/${mod.id}`}
                                 className={`flex items-center gap-6 p-5 rounded-2xl transition-all border-2 text-2xl font-bold group ${isActive
-                                        ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
-                                        : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:border-slate-700'
+                                    ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
+                                    : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200 hover:border-slate-700'
                                     }`}
                             >
                                 <div className={`p-3 rounded-xl transition-all ${isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/50' : 'bg-slate-800 text-slate-500 group-hover:text-slate-300'}`}>

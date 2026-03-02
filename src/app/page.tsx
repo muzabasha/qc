@@ -42,7 +42,7 @@ export default function Home() {
       </header>
 
       <div className="mb-12 flex justify-center">
-        <Link href="/modules/1" className="px-16 py-8 bg-emerald-600 hover:bg-emerald-500 text-white text-4xl font-black rounded-3xl shadow-[0_0_50px_rgba(16,185,129,0.5)] border-b-[8px] border-emerald-800 transition-all active:border-b-0 active:translate-y-2 group flex items-center gap-6">
+        <Link href="/modules/1" className="px-16 py-8 bg-emerald-600 hover:bg-emerald-500 text-white text-4xl font-black rounded-3xl shadow-[0_0_50px_rgba(16,185,129,0.5)] border-b-8 border-emerald-800 transition-all active:border-b-0 active:translate-y-2 group flex items-center gap-6">
           Start The Interactive Course
           <span className="group-hover:translate-x-2 transition-transform">→</span>
         </Link>

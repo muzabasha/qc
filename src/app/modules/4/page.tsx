@@ -112,7 +112,7 @@ export default function Module4() {
                             <div className="flex flex-col items-center z-10">
                                 <h4 className="text-3xl font-bold text-slate-300 mb-8">Qubit A</h4>
                                 <motion.div
-                                    className="w-48 h-48 rounded-full flex items-center justify-center text-7xl font-extrabold border-[12px] shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-slate-900 border-indigo-500 mb-12"
+                                    className="w-48 h-48 rounded-full flex items-center justify-center text-7xl font-extrabold border-12 shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-slate-900 border-indigo-500 mb-12"
                                     animate={{
                                         rotateY: qubitA === '?' ? 360 * 10 : 0,
                                         borderColor: qubitA === '0' ? '#10b981' : qubitA === '1' ? '#3b82f6' : '#6366f1'
@@ -150,7 +150,7 @@ export default function Module4() {
                             <div className="flex flex-col items-center z-10">
                                 <h4 className="text-3xl font-bold text-slate-300 mb-8">Qubit B</h4>
                                 <motion.div
-                                    className="w-48 h-48 rounded-full flex items-center justify-center text-7xl font-extrabold border-[12px] shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-slate-900 border-indigo-500 mb-12"
+                                    className="w-48 h-48 rounded-full flex items-center justify-center text-7xl font-extrabold border-12 shadow-[0_0_40px_rgba(0,0,0,0.5)] bg-slate-900 border-indigo-500 mb-12"
                                     animate={{
                                         rotateY: qubitB === '?' ? 360 * 10 : 0,
                                         borderColor: qubitB === '0' ? '#10b981' : qubitB === '1' ? '#3b82f6' : '#6366f1'
@@ -191,7 +191,7 @@ export default function Module4() {
                     <span className="group-hover:-translate-x-2 transition-transform">←</span>
                     Back: Quantum Gates
                 </Link>
-                <Link href="/modules/5" className="flex items-center gap-4 px-12 py-6 bg-cyan-600 hover:bg-cyan-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-[8px] border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
+                <Link href="/modules/5" className="flex items-center gap-4 px-12 py-6 bg-cyan-600 hover:bg-cyan-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-8 border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
                     Next: Quantum Circuits
                     <span className="group-hover:translate-x-2 transition-transform">→</span>
                 </Link>

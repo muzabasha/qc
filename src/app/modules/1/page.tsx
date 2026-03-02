@@ -76,7 +76,7 @@ export default function Module1() {
                             initial={coinState === 'Spinning...' ? { rotateY: 0 } : false}
                             animate={coinState === 'Spinning...' ? { rotateY: 360 * 8 } : { rotateY: 0 }}
                             transition={{ duration: 1, ease: "linear" }}
-                            className="w-80 h-80 rounded-full flex items-center justify-center text-7xl font-extrabold border-[16px] shadow-[0_0_50px_rgba(0,0,0,0.5)] transform-style-preserve-3d"
+                            className="w-80 h-80 rounded-full flex items-center justify-center text-7xl font-extrabold border-16 shadow-[0_0_50px_rgba(0,0,0,0.5)] transform-style-preserve-3d"
                             style={{
                                 backgroundColor: isQuantum && coinState === 'Spinning...' ? '#4f46e5' : '#10b981',
                                 borderColor: isQuantum ? '#312e81' : '#064e3b',
@@ -89,7 +89,7 @@ export default function Module1() {
                         <button
                             onClick={handleFlip}
                             disabled={coinState === 'Spinning...'}
-                            className="mt-20 px-16 py-6 text-4xl bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-2xl border-b-[8px] border-blue-800 active:border-b-0 active:translate-y-2 transition-all"
+                            className="mt-20 px-16 py-6 text-4xl bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl shadow-2xl border-b-8 border-blue-800 active:border-b-0 active:translate-y-2 transition-all"
                         >
                             {coinState === 'Spinning...' ? 'Observing...' : 'Flip Coin'}
                         </button>
@@ -196,7 +196,7 @@ export default function Module1() {
             </section>
 
             <div className="pt-24 flex justify-end">
-                <Link href="/modules/2" className="flex items-center gap-4 px-12 py-6 bg-cyan-600 hover:bg-cyan-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-[8px] border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
+                <Link href="/modules/2" className="flex items-center gap-4 px-12 py-6 bg-cyan-600 hover:bg-cyan-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-8 border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
                     Proceed to Module 2
                     <span className="group-hover:translate-x-2 transition-transform">→</span>
                 </Link>

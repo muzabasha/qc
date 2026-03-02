@@ -98,7 +98,7 @@ export default function Module6() {
                     <span className="group-hover:-translate-x-2 transition-transform">←</span>
                     Back: Quantum Circuits
                 </Link>
-                <Link href="/modules/7" className="flex items-center gap-4 px-12 py-6 bg-cyan-600 hover:bg-cyan-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-[8px] border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
+                <Link href="/modules/7" className="flex items-center gap-4 px-12 py-6 bg-cyan-600 hover:bg-cyan-500 text-white text-3xl font-black rounded-2xl shadow-2xl border-b-8 border-cyan-800 transition-all active:border-b-0 active:translate-y-2 group">
                     Next: Real-World Applications
                     <span className="group-hover:translate-x-2 transition-transform">→</span>
                 </Link>
