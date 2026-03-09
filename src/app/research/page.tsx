@@ -864,6 +864,25 @@ export default function ResearchRoadmap() {
                     </div>
                 </section>
 
+                {/* Research Demonstrations CTA */}
+                <section className="bg-gradient-to-br from-purple-900/50 to-slate-900 p-8 md:p-12 rounded-[32px] border-2 border-purple-500 shadow-2xl text-center">
+                    <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
+                        📐 Step-by-Step Research Demonstrations
+                    </h2>
+                    <p className="text-xl text-slate-300 mb-4 max-w-3xl mx-auto">
+                        Explore each research topic with full Input → Processing → Output visualisation, equations with term interpretation, illustrations, and NEP 2020 learn-by-doing activities.
+                    </p>
+                    <p className="text-base text-slate-400 mb-8 max-w-2xl mx-auto">
+                        Covers: Grover&apos;s Search, Quantum Error Correction, Variational Quantum Classifier, BB84 Protocol, QAOA Max-Cut, and VQE Molecular Simulation.
+                    </p>
+                    <Link
+                        href="/research/demos"
+                        className="inline-flex items-center gap-3 px-10 py-5 bg-purple-600 hover:bg-purple-500 text-white text-2xl font-black rounded-2xl shadow-xl transition-all hover:scale-105 border-b-6 border-purple-800"
+                    >
+                        View Demonstrations →
+                    </Link>
+                </section>
+
                 {/* Call to Action */}
                 <section className="bg-gradient-to-br from-cyan-900/50 to-slate-900 p-8 md:p-12 rounded-[32px] border-2 border-cyan-500 shadow-2xl text-center">
                     <h2 className="text-3xl md:text-4xl font-black text-white mb-6">
