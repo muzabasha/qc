@@ -17,8 +17,13 @@ interface Experiment {
     description: string
     type: 'slider' | 'toggle' | 'select' | 'button'
     options?: string[]
-    min?: number; max?: number; defaultVal?: number
+    min?: number; max?: number; defaultVal?: number; step?: number
+    unit?: string
     resultFn: (val: number | string) => string
+    visualFn?: (val: number | string) => { bars?: { label: string; value: number; max: number; color: string }[]; badges?: { text: string; color: string }[] }
+    challenge?: string
+    hint?: string
+    presets?: { label: string; value: number | string }[]
 }
 
 interface Step {
@@ -87,8 +92,12 @@ const topic1: DemoTopic = {
             experiment: {
                 label: 'Number of Qubits (n)',
                 description: 'Change the number of qubits to see how the search space grows exponentially.',
-                type: 'slider', min: 1, max: 6, defaultVal: 2,
+                type: 'slider', min: 1, max: 6, defaultVal: 2, unit: 'qubits',
                 resultFn: (v) => { const n = Number(v); const N = Math.pow(2, n); return `n=${n} qubits → N=${N} items in superposition. Each has probability ${(100 / N).toFixed(1)}%. Classical would need up to ${N} checks; Grover needs ~${Math.ceil(Math.PI / 4 * Math.sqrt(N))} iterations.` },
+                visualFn: (v) => { const n = Number(v); const N = Math.pow(2, n); const prob = 100 / N; return { bars: Array.from({ length: Math.min(N, 8) }, (_, i) => ({ label: `|${i.toString(2).padStart(n, '0')}⟩`, value: prob, max: 100, color: 'bg-blue-500' })), badges: [{ text: `${N} states`, color: 'bg-blue-500/20 text-blue-300' }, { text: `${prob.toFixed(1)}% each`, color: 'bg-emerald-500/20 text-emerald-300' }] } },
+                challenge: 'If you have 20 qubits, how many items are in the search space? How many Grover iterations would you need?',
+                hint: 'N = 2²⁰ = 1,048,576 items. Grover iterations ≈ (π/4)√N ≈ 804. Compare this to classical N/2 ≈ 524,288 checks.',
+                presets: [{ label: '2 qubits (4 items)', value: 2 }, { label: '4 qubits (16 items)', value: 4 }, { label: '6 qubits (64 items)', value: 6 }],
             },
         },
 
@@ -121,6 +130,10 @@ const topic1: DemoTopic = {
                 description: 'Choose which state the oracle should mark. Observe how only that state gets a phase flip.',
                 type: 'select', options: ['|00⟩', '|01⟩', '|10⟩', '|11⟩'],
                 resultFn: (v) => `Oracle marks ${v} with phase flip (−1). All other states remain unchanged (+1). After diffusion, ${v} will be amplified to ~50% probability after 1 iteration.`,
+                visualFn: (v) => { const idx = ['|00⟩', '|01⟩', '|10⟩', '|11⟩'].indexOf(String(v)); return { bars: ['|00⟩', '|01⟩', '|10⟩', '|11⟩'].map((s, i) => ({ label: s, value: i === idx ? -0.5 : 0.5, max: 1, color: i === idx ? 'bg-red-500' : 'bg-blue-500' })), badges: [{ text: `Target: ${v}`, color: 'bg-red-500/20 text-red-300' }, { text: 'Phase: −1', color: 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'Why can\'t we just measure after the oracle to find the target? Why do we need the diffusion step?',
+                hint: 'The oracle only flips the phase (sign) of the amplitude. Phase is invisible to measurement — all states still have equal probability |amplitude|² = 1/N. The diffusion step converts the phase difference into an amplitude difference.',
+                presets: [{ label: '|00⟩', value: '|00⟩' }, { label: '|01⟩', value: '|01⟩' }, { label: '|10⟩', value: '|10⟩' }, { label: '|11⟩', value: '|11⟩' }],
             },
         },
 
@@ -156,6 +169,10 @@ const topic1: DemoTopic = {
                 description: 'Adjust the number of Grover iterations. Too few = low probability. Too many = probability decreases again!',
                 type: 'slider', min: 0, max: 8, defaultVal: 1,
                 resultFn: (v) => { const k = Number(v); const N = 4; const theta = Math.asin(1 / Math.sqrt(N)); const prob = Math.pow(Math.sin((2 * k + 1) * theta), 2); return `After ${k} iteration(s): Target probability = ${(prob * 100).toFixed(1)}%. Optimal for N=4 is k=1 (probability ~100%). Notice: at k=4 the probability drops back — this is "over-rotation".` },
+                visualFn: (v) => { const k = Number(v); const N = 4; const theta = Math.asin(1 / Math.sqrt(N)); const pTarget = Math.pow(Math.sin((2 * k + 1) * theta), 2); const pOther = (1 - pTarget) / 3; return { bars: ['|00⟩', '|01⟩', '|10⟩', '|11⟩'].map((s, i) => ({ label: s, value: (i === 2 ? pTarget : pOther) * 100, max: 100, color: i === 2 ? 'bg-emerald-500' : 'bg-slate-500' })), badges: [{ text: `k=${k}`, color: 'bg-blue-500/20 text-blue-300' }, { text: pTarget > 0.9 ? '✅ High probability' : pTarget > 0.5 ? '⚠️ Moderate' : '❌ Low probability', color: pTarget > 0.9 ? 'bg-emerald-500/20 text-emerald-300' : pTarget > 0.5 ? 'bg-amber-500/20 text-amber-300' : 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'What happens at k=4 iterations for N=4? Why does the probability decrease? What is the optimal k for N=16?',
+                hint: 'At k=4, the amplitude "over-rotates" past the target — like pushing a pendulum too far. For N=16, optimal k = ⌊(π/4)√16⌋ = 3 iterations.',
+                presets: [{ label: 'k=0 (no iteration)', value: 0 }, { label: 'k=1 (optimal for N=4)', value: 1 }, { label: 'k=4 (over-rotation)', value: 4 }],
             },
         },
 
@@ -186,8 +203,12 @@ const topic1: DemoTopic = {
             experiment: {
                 label: 'Database Size (N)',
                 description: 'See how classical vs quantum search time scales with database size.',
-                type: 'slider', min: 4, max: 1000000, defaultVal: 1000,
+                type: 'slider', min: 4, max: 1000000, defaultVal: 1000, step: 100,
                 resultFn: (v) => { const N = Number(v); const classical = Math.floor(N / 2); const quantum = Math.ceil(Math.PI / 4 * Math.sqrt(N)); const speedup = (classical / quantum).toFixed(0); return `N=${N.toLocaleString()} items → Classical: ~${classical.toLocaleString()} checks | Quantum: ~${quantum.toLocaleString()} iterations | Speedup: ${speedup}×` },
+                visualFn: (v) => { const N = Number(v); const classical = Math.floor(N / 2); const quantum = Math.ceil(Math.PI / 4 * Math.sqrt(N)); const maxVal = Math.max(classical, 1); return { bars: [{ label: 'Classical', value: Math.min(classical, 100000), max: 100000, color: 'bg-orange-500' }, { label: 'Quantum', value: Math.min(quantum, 100000), max: 100000, color: 'bg-cyan-500' }], badges: [{ text: `Speedup: ${(classical / quantum).toFixed(0)}×`, color: 'bg-emerald-500/20 text-emerald-300' }, { text: `√N = ${Math.ceil(Math.sqrt(N))}`, color: 'bg-blue-500/20 text-blue-300' }] } },
+                challenge: 'At what database size does Grover\'s algorithm provide a 1000× speedup over classical search?',
+                hint: 'Speedup ≈ N/(2·(π/4)√N) = (2/π)√N. For 1000× speedup: √N ≈ 1571, so N ≈ 2,468,041 items.',
+                presets: [{ label: 'Small (100)', value: 100 }, { label: 'Medium (10K)', value: 10000 }, { label: 'Large (1M)', value: 1000000 }],
             },
         },
     ],
@@ -231,8 +252,12 @@ const topic2: DemoTopic = {
             experiment: {
                 label: 'Input State α',
                 description: 'Set the amplitude α (β is computed as √(1−α²)). See how the encoded state changes.',
-                type: 'slider', min: 0, max: 100, defaultVal: 70,
+                type: 'slider', min: 0, max: 100, defaultVal: 70, unit: '×0.01',
                 resultFn: (v) => { const a = Number(v) / 100; const b = Math.sqrt(1 - a * a); return `α=${a.toFixed(2)}, β=${b.toFixed(2)} → Encoded: ${a.toFixed(2)}|000⟩ + ${b.toFixed(2)}|111⟩. Probability of measuring |000⟩ = ${(a * a * 100).toFixed(1)}%, |111⟩ = ${(b * b * 100).toFixed(1)}%.` },
+                visualFn: (v) => { const a = Number(v) / 100; const b = Math.sqrt(1 - a * a); return { bars: [{ label: '|000⟩', value: a * a * 100, max: 100, color: 'bg-blue-500' }, { label: '|111⟩', value: b * b * 100, max: 100, color: 'bg-red-500' }], badges: [{ text: `α=${a.toFixed(2)}`, color: 'bg-blue-500/20 text-blue-300' }, { text: `β=${b.toFixed(2)}`, color: 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'What happens when α=1/√2 (≈0.71)? Why is this state special for quantum computing?',
+                hint: 'When α=β=1/√2, the state is an equal superposition: (|000⟩+|111⟩)/√2. This is a maximally entangled GHZ state — the quantum analogue of a perfectly balanced coin.',
+                presets: [{ label: 'α=0 (all |111⟩)', value: 0 }, { label: 'α=0.71 (equal)', value: 71 }, { label: 'α=1 (all |000⟩)', value: 100 }],
             },
         },
 
@@ -262,6 +287,10 @@ const topic2: DemoTopic = {
                 description: 'Choose which qubit gets the bit-flip error. See how the corrupted state changes.',
                 type: 'select', options: ['No Error', 'Qubit 1', 'Qubit 2', 'Qubit 3'],
                 resultFn: (v) => { const map: Record<string, string> = { 'No Error': 'α|000⟩+β|111⟩ — no corruption. Syndrome: (+1,+1).', 'Qubit 1': 'α|100⟩+β|011⟩ — qubit 1 flipped. Syndrome: (−1,+1).', 'Qubit 2': 'α|010⟩+β|101⟩ — qubit 2 flipped. Syndrome: (−1,−1).', 'Qubit 3': 'α|001⟩+β|110⟩ — qubit 3 flipped. Syndrome: (+1,−1).' }; return map[String(v)] || '' },
+                visualFn: (v) => { const errMap: Record<string, number[]> = { 'No Error': [1, 1, 1], 'Qubit 1': [0, 1, 1], 'Qubit 2': [1, 0, 1], 'Qubit 3': [1, 1, 0] }; const qubits = errMap[String(v)] || [1, 1, 1]; return { bars: qubits.map((ok, i) => ({ label: `q${i + 1}`, value: ok ? 100 : 0, max: 100, color: ok ? 'bg-emerald-500' : 'bg-red-500' })), badges: [{ text: String(v) === 'No Error' ? '✅ No error' : `❌ ${v} flipped`, color: String(v) === 'No Error' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'If two qubits are flipped simultaneously, can the 3-qubit code still correct the error? Why or why not?',
+                hint: 'No — the 3-qubit code can only correct single bit-flip errors. Two flips would give a syndrome that points to the wrong qubit. You need the 5-qubit code or Shor\'s 9-qubit code for multi-error correction.',
+                presets: [{ label: 'No Error', value: 'No Error' }, { label: 'Qubit 1', value: 'Qubit 1' }, { label: 'Qubit 2', value: 'Qubit 2' }, { label: 'Qubit 3', value: 'Qubit 3' }],
             },
         },
 
@@ -302,6 +331,10 @@ const topic2: DemoTopic = {
                 description: 'Enter a syndrome pair to see which error it corresponds to.',
                 type: 'select', options: ['(+1,+1)', '(−1,+1)', '(−1,−1)', '(+1,−1)'],
                 resultFn: (v) => { const map: Record<string, string> = { '(+1,+1)': 'No error detected. State is clean — no correction needed.', '(−1,+1)': 'Error on Qubit 1. Apply X gate to q₁ to correct.', '(−1,−1)': 'Error on Qubit 2. Apply X gate to q₂ to correct.', '(+1,−1)': 'Error on Qubit 3. Apply X gate to q₃ to correct.' }; return map[String(v)] || '' },
+                visualFn: (v) => { const synMap: Record<string, { err: string; q: number }> = { '(+1,+1)': { err: 'None', q: -1 }, '(−1,+1)': { err: 'q₁', q: 0 }, '(−1,−1)': { err: 'q₂', q: 1 }, '(+1,−1)': { err: 'q₃', q: 2 } }; const info = synMap[String(v)] || { err: 'None', q: -1 }; return { bars: [0, 1, 2].map(i => ({ label: `q${i + 1}`, value: i === info.q ? 0 : 100, max: 100, color: i === info.q ? 'bg-red-500' : 'bg-emerald-500' })), badges: [{ text: `Syndrome: ${v}`, color: 'bg-purple-500/20 text-purple-300' }, { text: info.q === -1 ? '✅ Clean' : `🔧 Fix ${info.err}`, color: info.q === -1 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'Why do we need TWO stabiliser measurements (S₁ and S₂) instead of just one? What would happen with only S₁?',
+                hint: 'One stabiliser can only distinguish 2 outcomes (+1 or −1), but we have 4 possibilities (no error + 3 qubit errors). Two stabilisers give 2²=4 outcomes — exactly enough to identify all cases.',
+                presets: [{ label: 'No error', value: '(+1,+1)' }, { label: 'Qubit 1', value: '(−1,+1)' }, { label: 'Qubit 2', value: '(−1,−1)' }, { label: 'Qubit 3', value: '(+1,−1)' }],
             },
         },
 
@@ -331,8 +364,12 @@ const topic2: DemoTopic = {
             experiment: {
                 label: 'Error Rate (%)',
                 description: 'Set the probability of a bit-flip error per qubit. See how the code performs.',
-                type: 'slider', min: 0, max: 50, defaultVal: 10,
+                type: 'slider', min: 0, max: 50, defaultVal: 10, unit: '%',
                 resultFn: (v) => { const p = Number(v) / 100; const uncoded = 1 - p; const coded = Math.pow(1 - p, 3) + 3 * p * Math.pow(1 - p, 2); return `Error rate p=${(p * 100).toFixed(0)}% → Uncoded fidelity: ${(uncoded * 100).toFixed(1)}% | 3-qubit code fidelity: ${(coded * 100).toFixed(1)}% | Improvement: ${((coded - uncoded) * 100).toFixed(1)} percentage points. Code helps when p < 50%.` },
+                visualFn: (v) => { const p = Number(v) / 100; const uncoded = (1 - p) * 100; const coded = (Math.pow(1 - p, 3) + 3 * p * Math.pow(1 - p, 2)) * 100; return { bars: [{ label: 'Uncoded', value: uncoded, max: 100, color: 'bg-red-500' }, { label: '3-qubit', value: coded, max: 100, color: 'bg-emerald-500' }], badges: [{ text: `+${(coded - uncoded).toFixed(1)}pp`, color: coded > uncoded ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300' }, { text: p < 0.5 ? '✅ Code helps' : '⚠️ Threshold', color: p < 0.5 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'At what error rate does the 3-qubit code stop providing any benefit? What is this threshold called?',
+                hint: 'The break-even point is at p=50%. Below this, the coded fidelity exceeds uncoded. This is related to the "threshold theorem" — error correction works only when physical error rates are below a threshold.',
+                presets: [{ label: 'Low noise (1%)', value: 1 }, { label: 'Moderate (10%)', value: 10 }, { label: 'High noise (30%)', value: 30 }, { label: 'Threshold (50%)', value: 50 }],
             },
         },
     ],
@@ -376,8 +413,12 @@ const topic3: DemoTopic = {
             experiment: {
                 label: 'Feature Value x₁',
                 description: 'Adjust the first feature value. See how the qubit state changes on the Bloch sphere.',
-                type: 'slider', min: 0, max: 314, defaultVal: 80,
+                type: 'slider', min: 0, max: 314, defaultVal: 80, unit: '×0.01 rad',
                 resultFn: (v) => { const x = Number(v) / 100; const p0 = Math.pow(Math.cos(x / 2), 2); const p1 = Math.pow(Math.sin(x / 2), 2); return `Ry(${x.toFixed(2)}) → |ψ⟩ = ${Math.cos(x / 2).toFixed(3)}|0⟩ + ${Math.sin(x / 2).toFixed(3)}|1⟩. P(|0⟩)=${(p0 * 100).toFixed(1)}%, P(|1⟩)=${(p1 * 100).toFixed(1)}%. At x=π, qubit is fully |1⟩.` },
+                visualFn: (v) => { const x = Number(v) / 100; const p0 = Math.pow(Math.cos(x / 2), 2) * 100; const p1 = Math.pow(Math.sin(x / 2), 2) * 100; return { bars: [{ label: 'P(|0⟩)', value: p0, max: 100, color: 'bg-blue-500' }, { label: 'P(|1⟩)', value: p1, max: 100, color: 'bg-purple-500' }], badges: [{ text: `θ=${(Number(v) / 100).toFixed(2)} rad`, color: 'bg-purple-500/20 text-purple-300' }, { text: p1 > 90 ? '→ Class 1' : p0 > 90 ? '→ Class 0' : '→ Superposition', color: 'bg-indigo-500/20 text-indigo-300' }] } },
+                challenge: 'If two data points have features x₁=0.5 and x₁=2.5, how different are their quantum states? Can a quantum classifier distinguish them?',
+                hint: 'Ry(0.5) gives P(|1⟩)=6.1%, while Ry(2.5) gives P(|1⟩)=89.3%. The states are nearly orthogonal — very easy for a quantum classifier to separate. This is the power of angle encoding.',
+                presets: [{ label: 'x=0 (|0⟩)', value: 0 }, { label: 'x=π/2', value: 157 }, { label: 'x=π (|1⟩)', value: 314 }],
             },
         },
 
@@ -405,8 +446,12 @@ const topic3: DemoTopic = {
             experiment: {
                 label: 'Circuit Depth (L)',
                 description: 'Increase the number of ansatz layers. More layers = more expressive but harder to train.',
-                type: 'slider', min: 1, max: 6, defaultVal: 2,
+                type: 'slider', min: 1, max: 6, defaultVal: 2, unit: 'layers',
                 resultFn: (v) => { const L = Number(v); const params = 2 * 2 * L; return `L=${L} layers → ${params} trainable parameters (2 qubits × 2 rotations × ${L} layers). Expressibility increases with depth, but so does training difficulty and noise sensitivity. Sweet spot is typically L=2-4.` },
+                visualFn: (v) => { const L = Number(v); const params = 2 * 2 * L; const expressibility = Math.min(L * 25, 100); const trainability = Math.max(100 - L * 15, 10); return { bars: [{ label: 'Express.', value: expressibility, max: 100, color: 'bg-purple-500' }, { label: 'Trainable', value: trainability, max: 100, color: 'bg-emerald-500' }, { label: 'Params', value: params, max: 24, color: 'bg-blue-500' }], badges: [{ text: `${params} params`, color: 'bg-blue-500/20 text-blue-300' }, { text: L <= 4 ? '✅ Practical' : '⚠️ Deep', color: L <= 4 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'What is the "barren plateau" problem? Why does increasing circuit depth sometimes make training harder?',
+                hint: 'In deep circuits, gradients become exponentially small (vanish) — the loss landscape becomes flat like a "barren plateau". This makes optimisation nearly impossible. It\'s the quantum analogue of the vanishing gradient problem in deep classical networks.',
+                presets: [{ label: 'Shallow (L=1)', value: 1 }, { label: 'Balanced (L=3)', value: 3 }, { label: 'Deep (L=6)', value: 6 }],
             },
         },
 
@@ -436,8 +481,12 @@ const topic3: DemoTopic = {
             experiment: {
                 label: 'Prediction Probability p',
                 description: 'Set the predicted probability for a Class 1 sample. See how the loss changes.',
-                type: 'slider', min: 1, max: 99, defaultVal: 70,
+                type: 'slider', min: 1, max: 99, defaultVal: 70, unit: '%',
                 resultFn: (v) => { const p = Number(v) / 100; const loss = -Math.log(p); return `p=${p.toFixed(2)} → Loss = −log(${p.toFixed(2)}) = ${loss.toFixed(3)}. Perfect prediction (p=1.0) gives loss=0. Random guess (p=0.5) gives loss=0.693. Wrong prediction (p=0.01) gives loss=4.605.` },
+                visualFn: (v) => { const p = Number(v) / 100; const loss = -Math.log(p); return { bars: [{ label: 'Prob', value: p * 100, max: 100, color: 'bg-purple-500' }, { label: 'Loss', value: Math.min(loss, 5), max: 5, color: loss < 0.5 ? 'bg-emerald-500' : loss < 1 ? 'bg-amber-500' : 'bg-red-500' }], badges: [{ text: loss < 0.3 ? '✅ Good prediction' : loss < 1 ? '⚠️ Moderate' : '❌ Poor prediction', color: loss < 0.3 ? 'bg-emerald-500/20 text-emerald-300' : loss < 1 ? 'bg-amber-500/20 text-amber-300' : 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'Why do we use −log(p) as the loss function instead of simply (1−p)? What mathematical property makes log-loss better?',
+                hint: 'Log-loss penalises confident wrong predictions much more heavily. If p=0.01 (very wrong), log-loss=4.6 vs linear loss=0.99. This steep penalty forces the model to avoid overconfident mistakes. It\'s also the information-theoretic optimal loss (cross-entropy).',
+                presets: [{ label: 'Wrong (p=0.1)', value: 10 }, { label: 'Random (p=0.5)', value: 50 }, { label: 'Good (p=0.9)', value: 90 }],
             },
         },
 
@@ -470,8 +519,12 @@ const topic3: DemoTopic = {
             experiment: {
                 label: 'Learning Rate η',
                 description: 'Adjust the learning rate. Too high = oscillation. Too low = slow convergence.',
-                type: 'slider', min: 1, max: 100, defaultVal: 10,
+                type: 'slider', min: 1, max: 100, defaultVal: 10, unit: '×0.01',
                 resultFn: (v) => { const eta = Number(v) / 100; const iters = eta > 0.5 ? 'may diverge' : eta > 0.2 ? Math.ceil(20 / eta).toString() : Math.ceil(50 / eta).toString(); return `η=${eta.toFixed(2)} → Estimated convergence: ${iters} iterations. η=0.01: very stable but slow (~5000 iters). η=0.1: good balance (~500 iters). η>0.5: risk of oscillation/divergence.` },
+                visualFn: (v) => { const eta = Number(v) / 100; const stability = Math.max(0, 100 - eta * 150); const speed = Math.min(eta * 200, 100); return { bars: [{ label: 'Stability', value: stability, max: 100, color: stability > 50 ? 'bg-emerald-500' : 'bg-red-500' }, { label: 'Speed', value: speed, max: 100, color: 'bg-blue-500' }], badges: [{ text: `η=${eta.toFixed(2)}`, color: 'bg-purple-500/20 text-purple-300' }, { text: eta < 0.2 ? '🐢 Slow but safe' : eta < 0.5 ? '⚡ Balanced' : '💥 Risky', color: eta < 0.2 ? 'bg-blue-500/20 text-blue-300' : eta < 0.5 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'In quantum ML, why is the parameter-shift rule used instead of backpropagation? What are its advantages and disadvantages?',
+                hint: 'Backpropagation requires knowing the internal state of the network, but quantum states collapse upon measurement. The parameter-shift rule estimates gradients by evaluating the circuit at θ±π/2 — it works on real quantum hardware but needs 2 circuit evaluations per parameter.',
+                presets: [{ label: 'Conservative (0.01)', value: 1 }, { label: 'Standard (0.1)', value: 10 }, { label: 'Aggressive (0.5)', value: 50 }],
             },
         },
     ],
@@ -515,8 +568,12 @@ const topic4: DemoTopic = {
             experiment: {
                 label: 'Number of Qubits Sent',
                 description: 'Increase the key length. More qubits = more secure key after sifting.',
-                type: 'slider', min: 4, max: 100, defaultVal: 20,
+                type: 'slider', min: 4, max: 100, defaultVal: 20, unit: 'qubits',
                 resultFn: (v) => { const n = Number(v); const sifted = Math.floor(n / 2); const test = Math.floor(sifted / 4); const final_key = sifted - test; const detectProb = ((1 - Math.pow(0.75, test)) * 100).toFixed(2); return `${n} qubits sent → ~${sifted} survive basis sifting → ${test} used for eavesdropper detection → ${final_key} bits of secure key. Detection probability of Eve: ${detectProb}%.` },
+                visualFn: (v) => { const n = Number(v); const sifted = Math.floor(n / 2); const test = Math.floor(sifted / 4); const final_key = sifted - test; const detectProb = (1 - Math.pow(0.75, test)) * 100; return { bars: [{ label: 'Sent', value: n, max: 100, color: 'bg-blue-500' }, { label: 'Sifted', value: sifted, max: 100, color: 'bg-amber-500' }, { label: 'Key', value: final_key, max: 100, color: 'bg-emerald-500' }], badges: [{ text: `Eve detect: ${detectProb.toFixed(1)}%`, color: detectProb > 99 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }, { text: `${final_key} secure bits`, color: 'bg-cyan-500/20 text-cyan-300' }] } },
+                challenge: 'How many qubits must Alice send to generate a 256-bit secure key (AES-256 equivalent)?',
+                hint: 'After sifting (~50%), testing (~25% of sifted), and privacy amplification (~50% of remaining): final_key ≈ n × 0.5 × 0.75 × 0.5 = n/5.3. For 256 bits: n ≈ 1365 qubits.',
+                presets: [{ label: 'Minimal (10)', value: 10 }, { label: 'Standard (50)', value: 50 }, { label: 'High security (100)', value: 100 }],
             },
         },
 
@@ -544,8 +601,12 @@ const topic4: DemoTopic = {
             experiment: {
                 label: 'Basis Match Rate',
                 description: 'In theory, 50% of bases match. Adjust to see the effect on key length.',
-                type: 'slider', min: 20, max: 80, defaultVal: 50,
+                type: 'slider', min: 20, max: 80, defaultVal: 50, unit: '%',
                 resultFn: (v) => { const rate = Number(v) / 100; const sent = 100; const kept = Math.floor(sent * rate); return `${sent} qubits sent, ${(rate * 100).toFixed(0)}% basis match → ${kept} raw key bits. Standard BB84: 50% match rate. Higher match = more efficient but requires basis coordination (reduces security).` },
+                visualFn: (v) => { const rate = Number(v) / 100; const sent = 100; const kept = Math.floor(sent * rate); const discarded = sent - kept; return { bars: [{ label: 'Kept', value: kept, max: 100, color: 'bg-emerald-500' }, { label: 'Discarded', value: discarded, max: 100, color: 'bg-red-500' }], badges: [{ text: `${(rate * 100).toFixed(0)}% match`, color: 'bg-emerald-500/20 text-emerald-300' }, { text: `Efficiency: ${kept}%`, color: 'bg-blue-500/20 text-blue-300' }] } },
+                challenge: 'Why can\'t Alice and Bob agree on bases beforehand to get 100% match rate? What would happen to security?',
+                hint: 'If bases are pre-agreed, Eve knows which basis to measure in — she can intercept and re-send without introducing errors. The randomness of basis choice IS the security mechanism.',
+                presets: [{ label: 'Low (20%)', value: 20 }, { label: 'Standard (50%)', value: 50 }, { label: 'High (80%)', value: 80 }],
             },
         },
 
@@ -578,8 +639,12 @@ const topic4: DemoTopic = {
             experiment: {
                 label: 'Test Bits for Detection',
                 description: 'Choose how many sifted key bits to sacrifice for eavesdropper detection.',
-                type: 'slider', min: 1, max: 50, defaultVal: 10,
+                type: 'slider', min: 1, max: 50, defaultVal: 10, unit: 'bits',
                 resultFn: (v) => { const n = Number(v); const pDetect = 1 - Math.pow(0.75, n); return `${n} test bits → Eve detection probability: ${(pDetect * 100).toFixed(4)}%. With 10 bits: 94.37%. With 20 bits: 99.68%. With 30 bits: 99.98%. Trade-off: more test bits = higher security but shorter final key.` },
+                visualFn: (v) => { const n = Number(v); const pDetect = (1 - Math.pow(0.75, n)) * 100; const keyLoss = n; return { bars: [{ label: 'Detect %', value: pDetect, max: 100, color: pDetect > 99 ? 'bg-emerald-500' : pDetect > 90 ? 'bg-amber-500' : 'bg-red-500' }, { label: 'Key loss', value: keyLoss, max: 50, color: 'bg-red-500' }], badges: [{ text: pDetect > 99.9 ? '🛡️ Very secure' : pDetect > 95 ? '✅ Secure' : '⚠️ Weak detection', color: pDetect > 99.9 ? 'bg-emerald-500/20 text-emerald-300' : pDetect > 95 ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'If Eve only intercepts 10% of the qubits (not all), how does this affect the detection probability?',
+                hint: 'If Eve intercepts fraction f of qubits, the error rate drops to f×25%. With 10% interception and 10 test bits, detection probability drops to 1−(1−0.025)¹⁰ ≈ 22%. Partial eavesdropping is harder to detect — this is why more test bits are needed in practice.',
+                presets: [{ label: 'Minimal (5)', value: 5 }, { label: 'Standard (10)', value: 10 }, { label: 'High security (30)', value: 30 }],
             },
         },
 
@@ -609,8 +674,12 @@ const topic4: DemoTopic = {
             experiment: {
                 label: 'Raw Key Length',
                 description: 'Set the raw key length. See how much survives after error correction and privacy amplification.',
-                type: 'slider', min: 10, max: 200, defaultVal: 50,
+                type: 'slider', min: 10, max: 200, defaultVal: 50, unit: 'bits',
                 resultFn: (v) => { const raw = Number(v); const afterEC = Math.floor(raw * 0.9); const afterPA = Math.floor(afterEC * 0.5); return `Raw key: ${raw} bits → After error correction: ~${afterEC} bits → After privacy amplification: ~${afterPA} bits of perfectly secure key. Efficiency: ${((afterPA / raw) * 100).toFixed(0)}%. Longer raw keys give proportionally longer secure keys.` },
+                visualFn: (v) => { const raw = Number(v); const afterEC = Math.floor(raw * 0.9); const afterPA = Math.floor(afterEC * 0.5); return { bars: [{ label: 'Raw', value: raw, max: 200, color: 'bg-blue-500' }, { label: 'After EC', value: afterEC, max: 200, color: 'bg-amber-500' }, { label: 'Secure', value: afterPA, max: 200, color: 'bg-emerald-500' }], badges: [{ text: `${((afterPA / raw) * 100).toFixed(0)}% efficiency`, color: 'bg-emerald-500/20 text-emerald-300' }, { text: `${afterPA} secure bits`, color: 'bg-cyan-500/20 text-cyan-300' }] } },
+                challenge: 'Why is privacy amplification necessary even after error correction? What information might Eve still have?',
+                hint: 'Even after error correction, Eve may have partial information from her measurements (she gets the right bit 75% of the time when she guesses the wrong basis). Privacy amplification uses hashing to compress the key, ensuring Eve\'s information about the final key is exponentially small.',
+                presets: [{ label: 'Short (20)', value: 20 }, { label: 'Medium (100)', value: 100 }, { label: 'Long (200)', value: 200 }],
             },
         },
     ],
@@ -656,8 +725,12 @@ const topic5: DemoTopic = {
             experiment: {
                 label: 'Number of Vertices',
                 description: 'See how the classical brute-force cost explodes vs QAOA.',
-                type: 'slider', min: 3, max: 20, defaultVal: 5,
+                type: 'slider', min: 3, max: 20, defaultVal: 5, unit: 'vertices',
                 resultFn: (v) => { const n = Number(v); const classical = Math.pow(2, n); const edges = Math.floor(n * (n - 1) / 2); return `${n} vertices, up to ${edges} edges → Classical brute force: ${classical.toLocaleString()} partitions to check. QAOA: ~${Math.ceil(Math.sqrt(classical))} iterations with p=1. At n=20: classical needs 1,048,576 checks; QAOA needs ~1,024.` },
+                visualFn: (v) => { const n = Number(v); const classical = Math.pow(2, n); const quantum = Math.ceil(Math.sqrt(classical)); const logC = Math.log10(classical); const logQ = Math.log10(quantum); return { bars: [{ label: 'Classical', value: Math.min(logC, 7), max: 7, color: 'bg-orange-500' }, { label: 'QAOA', value: Math.min(logQ, 7), max: 7, color: 'bg-cyan-500' }], badges: [{ text: `2^${n} = ${classical.toLocaleString()}`, color: 'bg-orange-500/20 text-orange-300' }, { text: `Speedup: ${Math.floor(classical / quantum)}×`, color: 'bg-emerald-500/20 text-emerald-300' }] } },
+                challenge: 'For a graph with 50 vertices, how many partitions exist? Is this more than the number of atoms in the universe (~10⁸⁰)?',
+                hint: '2⁵⁰ ≈ 1.13 × 10¹⁵ — about 1 quadrillion. This is far less than 10⁸⁰, but still completely intractable for brute force. QAOA would need ~2²⁵ ≈ 33 million iterations — challenging but potentially feasible on future quantum computers.',
+                presets: [{ label: 'Small (4)', value: 4 }, { label: 'Medium (10)', value: 10 }, { label: 'Large (20)', value: 20 }],
             },
         },
 
@@ -685,8 +758,12 @@ const topic5: DemoTopic = {
             experiment: {
                 label: 'QAOA Depth (p)',
                 description: 'Increase p to see how approximation quality improves.',
-                type: 'slider', min: 1, max: 10, defaultVal: 2,
+                type: 'slider', min: 1, max: 10, defaultVal: 2, unit: 'layers',
                 resultFn: (v) => { const p = Number(v); const ratio = Math.min(0.6924 + 0.03 * p, 0.99); const params = 2 * p; return `p=${p} → ${params} parameters. Approximation ratio ≥ ${ratio.toFixed(4)}. At p=1: ratio=0.6924 (guaranteed). At p=5: ratio≈0.84. At p→∞: ratio→1.0 (exact). Trade-off: higher p needs more quantum gates and is more noise-sensitive.` },
+                visualFn: (v) => { const p = Number(v); const ratio = Math.min(0.6924 + 0.03 * p, 0.99); const params = 2 * p; const noiseRisk = Math.min(p * 12, 100); return { bars: [{ label: 'Approx.', value: ratio * 100, max: 100, color: 'bg-emerald-500' }, { label: 'Noise risk', value: noiseRisk, max: 100, color: noiseRisk > 60 ? 'bg-red-500' : 'bg-amber-500' }], badges: [{ text: `${params} params`, color: 'bg-blue-500/20 text-blue-300' }, { text: `Ratio: ${ratio.toFixed(3)}`, color: ratio > 0.85 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'QAOA with p=1 guarantees an approximation ratio of 0.6924 for Max-Cut. What does this mean in practical terms?',
+                hint: 'It means QAOA is guaranteed to find a cut that is at least 69.24% of the maximum possible cut. For a graph with max-cut=10, QAOA p=1 will find a cut ≥ 7. The best known classical polynomial-time algorithm (Goemans-Williamson) achieves 0.878.',
+                presets: [{ label: 'p=1 (basic)', value: 1 }, { label: 'p=3 (good)', value: 3 }, { label: 'p=8 (deep)', value: 8 }],
             },
         },
 
@@ -714,8 +791,12 @@ const topic5: DemoTopic = {
             experiment: {
                 label: 'Number of Shots',
                 description: 'More shots = better statistics but longer runtime. Find the sweet spot.',
-                type: 'slider', min: 10, max: 10000, defaultVal: 1000,
+                type: 'slider', min: 10, max: 10000, defaultVal: 1000, step: 10, unit: 'shots',
                 resultFn: (v) => { const shots = Number(v); const confidence = Math.min(1 - 1 / Math.sqrt(shots), 0.999); return `${shots.toLocaleString()} shots → Statistical confidence: ${(confidence * 100).toFixed(1)}%. With 100 shots: 90% confidence. With 1000: 96.8%. With 10000: 99%. More shots improve reliability but increase quantum computer time.` },
+                visualFn: (v) => { const shots = Number(v); const confidence = Math.min(1 - 1 / Math.sqrt(shots), 0.999) * 100; const cost = Math.min(shots / 100, 100); return { bars: [{ label: 'Confidence', value: confidence, max: 100, color: confidence > 95 ? 'bg-emerald-500' : 'bg-amber-500' }, { label: 'Cost', value: cost, max: 100, color: cost > 50 ? 'bg-red-500' : 'bg-blue-500' }], badges: [{ text: `${shots.toLocaleString()} shots`, color: 'bg-blue-500/20 text-blue-300' }, { text: confidence > 99 ? '🎯 High precision' : confidence > 95 ? '✅ Good' : '⚠️ Low precision', color: confidence > 99 ? 'bg-emerald-500/20 text-emerald-300' : confidence > 95 ? 'bg-blue-500/20 text-blue-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'If the optimal solution has probability 30% in the QAOA output distribution, how many shots do you need to see it at least once with 99% confidence?',
+                hint: 'P(not seeing it in k shots) = 0.7^k. For 99% confidence: 0.7^k < 0.01, so k > log(0.01)/log(0.7) ≈ 13 shots. In practice, you want to see it multiple times for statistical significance — about 50-100 shots.',
+                presets: [{ label: 'Quick (100)', value: 100 }, { label: 'Standard (1K)', value: 1000 }, { label: 'Precise (10K)', value: 10000 }],
             },
         },
 
@@ -746,6 +827,10 @@ const topic5: DemoTopic = {
                 description: 'See how the expected cut value improves with more optimisation iterations.',
                 type: 'slider', min: 1, max: 100, defaultVal: 20,
                 resultFn: (v) => { const iters = Number(v); const maxCut = 2; const achieved = maxCut * (1 - Math.exp(-iters / 15)); return `After ${iters} iterations: ⟨C⟩ ≈ ${achieved.toFixed(2)} / ${maxCut} (${(achieved / maxCut * 100).toFixed(0)}% of optimal). Convergence typically occurs around 30-50 iterations for small graphs. Larger graphs need more iterations.` },
+                visualFn: (v) => { const iters = Number(v); const maxCut = 2; const achieved = maxCut * (1 - Math.exp(-iters / 15)); const pct = (achieved / maxCut) * 100; return { bars: [{ label: '⟨C⟩', value: achieved, max: maxCut, color: pct > 90 ? 'bg-emerald-500' : 'bg-amber-500' }, { label: 'Progress', value: pct, max: 100, color: 'bg-blue-500' }], badges: [{ text: `${pct.toFixed(0)}% optimal`, color: pct > 90 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }, { text: pct > 95 ? '✅ Converged' : '⏳ Optimising...', color: pct > 95 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-blue-500/20 text-blue-300' }] } },
+                challenge: 'Why does QAOA use a classical optimiser in the loop instead of a purely quantum approach? What are the alternatives?',
+                hint: 'Pure quantum optimisation (like quantum annealing) exists but requires different hardware. QAOA\'s hybrid approach works on gate-based quantum computers and leverages classical optimisers (COBYLA, SPSA) that are well-understood. The quantum computer evaluates the cost function exponentially faster; the classical computer handles the low-dimensional parameter optimisation.',
+                presets: [{ label: 'Early (5)', value: 5 }, { label: 'Mid (30)', value: 30 }, { label: 'Converged (80)', value: 80 }],
             },
         },
     ],
@@ -791,8 +876,12 @@ const topic6: DemoTopic = {
             experiment: {
                 label: 'Bond Distance (Å)',
                 description: 'Change the H-H bond distance. See how the Hamiltonian coefficients change.',
-                type: 'slider', min: 30, max: 300, defaultVal: 74,
+                type: 'slider', min: 30, max: 300, defaultVal: 74, unit: '×0.01 Å',
                 resultFn: (v) => { const d = Number(v) / 100; const eHF = -1.117 + 0.3 * Math.pow(d - 0.735, 2); const eExact = -1.174 + 0.35 * Math.pow(d - 0.735, 2); return `Bond distance: ${d.toFixed(2)} Å → Hartree-Fock energy: ${eHF.toFixed(3)} Ha | Exact energy: ${eExact.toFixed(3)} Ha | Correlation energy: ${(eExact - eHF).toFixed(3)} Ha. Equilibrium at 0.735 Å. VQE captures the correlation energy that Hartree-Fock misses.` },
+                visualFn: (v) => { const d = Number(v) / 100; const eHF = -1.117 + 0.3 * Math.pow(d - 0.735, 2); const eExact = -1.174 + 0.35 * Math.pow(d - 0.735, 2); const corr = Math.abs(eExact - eHF); return { bars: [{ label: 'HF', value: Math.abs(eHF), max: 1.5, color: 'bg-orange-500' }, { label: 'Exact', value: Math.abs(eExact), max: 1.5, color: 'bg-indigo-500' }, { label: 'Corr.', value: corr, max: 0.1, color: 'bg-emerald-500' }], badges: [{ text: `d=${d.toFixed(2)} Å`, color: 'bg-blue-500/20 text-blue-300' }, { text: Math.abs(d - 0.735) < 0.05 ? '⚛️ Equilibrium' : d < 0.735 ? '🔴 Compressed' : '🔵 Stretched', color: Math.abs(d - 0.735) < 0.05 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'Why does the correlation energy (difference between exact and Hartree-Fock) increase as the bond is stretched?',
+                hint: 'At large bond distances, the electrons become strongly correlated — they need to "decide" which atom to belong to. Hartree-Fock treats electrons as independent (mean-field), so it completely fails to describe bond breaking. This is where quantum computers shine.',
+                presets: [{ label: 'Compressed (0.5Å)', value: 50 }, { label: 'Equilibrium (0.74Å)', value: 74 }, { label: 'Stretched (2.0Å)', value: 200 }],
             },
         },
 
@@ -820,8 +909,12 @@ const topic6: DemoTopic = {
             experiment: {
                 label: 'Variational Parameter θ',
                 description: 'Adjust θ to see how the trial energy changes. Find the minimum!',
-                type: 'slider', min: 0, max: 314, defaultVal: 150,
+                type: 'slider', min: 0, max: 314, defaultVal: 150, unit: '×0.01 rad',
                 resultFn: (v) => { const theta = Number(v) / 100; const E = -0.5 - 0.674 * Math.cos(theta); const Emin = -1.174; return `θ=${theta.toFixed(2)} rad → E(θ) = ${E.toFixed(3)} Ha. Minimum at θ*≈1.57 (π/2): E=${Emin} Ha. Current distance from exact: ${(E - Emin).toFixed(3)} Ha. The variational principle guarantees E(θ) ≥ ${Emin} Ha always.` },
+                visualFn: (v) => { const theta = Number(v) / 100; const E = -0.5 - 0.674 * Math.cos(theta); const Emin = -1.174; const error = E - Emin; return { bars: [{ label: 'E(θ)', value: Math.abs(E), max: 1.5, color: error < 0.01 ? 'bg-emerald-500' : 'bg-indigo-500' }, { label: 'Error', value: Math.min(error, 0.7), max: 0.7, color: error < 0.01 ? 'bg-emerald-500' : error < 0.1 ? 'bg-amber-500' : 'bg-red-500' }], badges: [{ text: `θ=${theta.toFixed(2)}`, color: 'bg-indigo-500/20 text-indigo-300' }, { text: error < 0.002 ? '🎯 Chemical accuracy!' : error < 0.05 ? '✅ Close' : '❌ Far from minimum', color: error < 0.002 ? 'bg-emerald-500/20 text-emerald-300' : error < 0.05 ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300' }] } },
+                challenge: 'What is "chemical accuracy" and why is it the gold standard for quantum chemistry simulations?',
+                hint: 'Chemical accuracy is ±1 kcal/mol ≈ ±0.0016 Hartree. This is the precision needed to reliably predict chemical reaction rates, binding energies, and molecular properties. Below this threshold, computational predictions match experimental measurements.',
+                presets: [{ label: 'θ=0 (HF)', value: 0 }, { label: 'θ=π/2 (optimal)', value: 157 }, { label: 'θ=π', value: 314 }],
             },
         },
 
@@ -851,8 +944,12 @@ const topic6: DemoTopic = {
             experiment: {
                 label: 'Measurement Shots per Pauli Term',
                 description: 'More shots = more precise energy estimate. See the precision trade-off.',
-                type: 'slider', min: 10, max: 10000, defaultVal: 1000,
+                type: 'slider', min: 10, max: 10000, defaultVal: 1000, step: 10, unit: 'shots',
                 resultFn: (v) => { const shots = Number(v); const precision = 1 / Math.sqrt(shots); return `${shots.toLocaleString()} shots → Energy precision: ±${precision.toFixed(4)} Ha. Chemical accuracy requires ±0.0016 Ha (1 kcal/mol). Need ~${Math.ceil(1 / (0.0016 * 0.0016)).toLocaleString()} shots for chemical accuracy. With 1000 shots: ±0.032 Ha (good for qualitative trends).` },
+                visualFn: (v) => { const shots = Number(v); const precision = 1 / Math.sqrt(shots); const chemAcc = 0.0016; return { bars: [{ label: 'Precision', value: Math.min(precision * 1000, 100), max: 100, color: precision < chemAcc ? 'bg-emerald-500' : precision < 0.05 ? 'bg-amber-500' : 'bg-red-500' }, { label: 'Shots', value: Math.min(shots / 100, 100), max: 100, color: 'bg-blue-500' }], badges: [{ text: `±${precision.toFixed(4)} Ha`, color: 'bg-indigo-500/20 text-indigo-300' }, { text: precision < chemAcc ? '🎯 Chemical accuracy!' : precision < 0.05 ? '✅ Qualitative' : '⚠️ Low precision', color: precision < chemAcc ? 'bg-emerald-500/20 text-emerald-300' : precision < 0.05 ? 'bg-blue-500/20 text-blue-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'H₂ has 5 Pauli terms in its Hamiltonian. If each needs 1000 shots, how many total circuit executions are needed per energy evaluation?',
+                hint: '5 terms × 1000 shots = 5,000 circuit executions per energy evaluation. With 50 optimiser iterations, that\'s 250,000 total circuit runs. Grouping commuting Pauli terms can reduce this — Z₀ and Z₁ can be measured simultaneously.',
+                presets: [{ label: 'Quick (100)', value: 100 }, { label: 'Standard (1K)', value: 1000 }, { label: 'Precise (10K)', value: 10000 }],
             },
         },
 
@@ -888,6 +985,10 @@ const topic6: DemoTopic = {
                 description: 'Watch the energy converge to the exact value as the optimiser runs.',
                 type: 'slider', min: 1, max: 100, defaultVal: 30,
                 resultFn: (v) => { const iters = Number(v); const Eexact = -1.174; const E = Eexact + (0.674) * Math.exp(-iters / 10); const error = E - Eexact; const chemAcc = error < 0.0016; return `After ${iters} iterations: E = ${E.toFixed(4)} Ha | Error: ${error.toFixed(4)} Ha | ${chemAcc ? '✅ Chemical accuracy achieved!' : '❌ Not yet at chemical accuracy (need <0.0016 Ha)'}. Typically converges in 20-50 iterations for H₂.` },
+                visualFn: (v) => { const iters = Number(v); const Eexact = -1.174; const E = Eexact + 0.674 * Math.exp(-iters / 10); const error = E - Eexact; return { bars: [{ label: 'Energy', value: Math.abs(E), max: 1.5, color: error < 0.002 ? 'bg-emerald-500' : 'bg-indigo-500' }, { label: 'Error', value: Math.min(error * 100, 70), max: 70, color: error < 0.002 ? 'bg-emerald-500' : error < 0.05 ? 'bg-amber-500' : 'bg-red-500' }], badges: [{ text: `Iter ${iters}`, color: 'bg-blue-500/20 text-blue-300' }, { text: error < 0.0016 ? '🎯 Chemical accuracy!' : error < 0.01 ? '🔬 Near convergence' : '⏳ Optimising...', color: error < 0.0016 ? 'bg-emerald-500/20 text-emerald-300' : error < 0.01 ? 'bg-blue-500/20 text-blue-300' : 'bg-amber-500/20 text-amber-300' }] } },
+                challenge: 'VQE uses O(iterations × terms × shots) circuit evaluations. For H₂ with 50 iterations, 5 terms, and 1000 shots, what is the total quantum cost? How does this compare to exact diagonalisation?',
+                hint: '50 × 5 × 1000 = 250,000 circuit evaluations. Exact diagonalisation of the 4×4 Hamiltonian matrix takes microseconds classically. VQE only becomes advantageous for larger molecules (>20 qubits) where the classical matrix is too large to store in memory (2²⁰ × 2²⁰ = 10¹² entries).',
+                presets: [{ label: 'Early (5)', value: 5 }, { label: 'Mid (20)', value: 20 }, { label: 'Converged (60)', value: 60 }],
             },
         },
     ],
@@ -899,58 +1000,193 @@ const topics: DemoTopic[] = [topic1, topic2, topic3, topic4, topic5, topic6]
 
 
 /* ═══════════════════════════════════════════════════
-   EXPERIMENT WIDGET — Interactive user controls
+   EXPERIMENT WIDGET — Enhanced Interactive Learning Lab
    ═══════════════════════════════════════════════════ */
 function ExperimentWidget({ experiment, color }: { experiment: Experiment; color: string }) {
     const c = C[color]
-    const [val, setVal] = useState<number | string>(
-        experiment.type === 'select' ? (experiment.options?.[0] ?? '') : (experiment.defaultVal ?? 0)
-    )
-    const [result, setResult] = useState(experiment.resultFn(experiment.type === 'select' ? (experiment.options?.[0] ?? '') : (experiment.defaultVal ?? 0)))
+    const initVal = experiment.type === 'select' ? (experiment.options?.[0] ?? '') : (experiment.defaultVal ?? 0)
+    const [val, setVal] = useState<number | string>(initVal)
+    const [result, setResult] = useState(experiment.resultFn(initVal))
+    const [visuals, setVisuals] = useState(experiment.visualFn?.(initVal))
+    const [history, setHistory] = useState<{ val: string; summary: string }[]>([])
+    const [showHint, setShowHint] = useState(false)
+    const [challengeDone, setChallengeDone] = useState(false)
+    const [attempts, setAttempts] = useState(0)
 
     const handleChange = useCallback((newVal: number | string) => {
         setVal(newVal)
-        setResult(experiment.resultFn(newVal))
+        const newResult = experiment.resultFn(newVal)
+        setResult(newResult)
+        if (experiment.visualFn) setVisuals(experiment.visualFn(newVal))
+        setAttempts(prev => prev + 1)
+        setHistory(prev => {
+            const entry = { val: String(newVal), summary: newResult.slice(0, 80) + (newResult.length > 80 ? '…' : '') }
+            const next = [entry, ...prev]
+            return next.slice(0, 5)
+        })
     }, [experiment])
 
-    return (
-        <div className="bg-slate-950/80 rounded-xl p-5 border-2 border-cyan-500/40 space-y-4">
-            <div className="flex items-center gap-2 mb-1">
-                <Play size={18} className="text-cyan-400" />
-                <span className="text-sm font-bold text-cyan-400 uppercase tracking-wide">🧪 Experiential Learning Lab</span>
-            </div>
-            <p className="text-slate-400 text-sm">{experiment.description}</p>
+    const handleReset = () => {
+        handleChange(initVal)
+        setHistory([])
+        setAttempts(0)
+        setShowHint(false)
+        setChallengeDone(false)
+    }
 
-            <div className="space-y-3">
-                <label className="text-sm font-bold text-white block">{experiment.label}</label>
-                {experiment.type === 'slider' && (
-                    <div className="flex items-center gap-4">
-                        <input
-                            type="range"
-                            min={experiment.min} max={experiment.max} value={Number(val)}
-                            onChange={(e) => handleChange(Number(e.target.value))}
-                            className="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-                        />
-                        <span className="text-cyan-400 font-mono text-sm min-w-[60px] text-right">{String(val)}</span>
+    return (
+        <div className="bg-slate-950/80 rounded-2xl border-2 border-cyan-500/40 overflow-hidden">
+            {/* Header */}
+            <div className="bg-cyan-950/50 px-6 py-4 border-b border-cyan-700/30 flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                    <div className="bg-cyan-500/20 p-2 rounded-lg"><FlaskConical size={20} className="text-cyan-400" /></div>
+                    <div>
+                        <span className="text-sm font-black text-cyan-400 uppercase tracking-wide block">🧪 Experiential Learning Lab</span>
+                        <span className="text-xs text-slate-500">NEP 2020 — Learn by Doing</span>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    {attempts > 0 && <span className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded-full">{attempts} experiment{attempts !== 1 ? 's' : ''}</span>}
+                    <button onClick={handleReset} className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 transition-colors" aria-label="Reset experiment" title="Reset"><RotateCcw size={14} /></button>
+                </div>
+            </div>
+
+            <div className="p-6 space-y-5">
+                {/* Description */}
+                <p className="text-slate-300 text-sm leading-relaxed">{experiment.description}</p>
+
+                {/* Presets */}
+                {experiment.presets && experiment.presets.length > 0 && (
+                    <div className="space-y-2">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">Quick Presets</span>
+                        <div className="flex flex-wrap gap-2">
+                            {experiment.presets.map((p, i) => (
+                                <button key={i} onClick={() => handleChange(p.value)}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${String(val) === String(p.value) ? 'bg-cyan-600/30 border-cyan-500 text-cyan-300' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'}`}>
+                                    {p.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 )}
-                {experiment.type === 'select' && experiment.options && (
+
+                {/* Control */}
+                <div className="space-y-2">
+                    <label className="text-sm font-bold text-white flex items-center gap-2">
+                        {experiment.label}
+                        {experiment.unit && <span className="text-xs text-slate-500 font-normal">({experiment.unit})</span>}
+                    </label>
+                    {experiment.type === 'slider' && (
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-4">
+                                <span className="text-xs text-slate-500 font-mono w-12 text-right">{experiment.min}</span>
+                                <input type="range" min={experiment.min} max={experiment.max} step={experiment.step || 1} value={Number(val)}
+                                    onChange={(e) => handleChange(Number(e.target.value))}
+                                    className="flex-1 h-3 bg-slate-700 rounded-full appearance-none cursor-pointer accent-cyan-500" />
+                                <span className="text-xs text-slate-500 font-mono w-12">{experiment.max}</span>
+                            </div>
+                            <div className="text-center">
+                                <span className="inline-block bg-cyan-600 text-white font-mono font-bold text-lg px-4 py-1 rounded-lg min-w-[80px]">{String(val)}{experiment.unit ? ` ${experiment.unit}` : ''}</span>
+                            </div>
+                        </div>
+                    )}
+                    {experiment.type === 'select' && experiment.options && (
+                        <div className="flex flex-wrap gap-2">
+                            {experiment.options.map((opt) => (
+                                <button key={opt} onClick={() => handleChange(opt)}
+                                    className={`px-4 py-2.5 rounded-xl text-sm font-bold transition-all border-2 ${val === opt ? 'bg-cyan-600/30 border-cyan-500 text-cyan-300 shadow-lg shadow-cyan-500/10' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'}`}>
+                                    {opt}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* Visual Output — Bar Chart */}
+                {visuals?.bars && visuals.bars.length > 0 && (
+                    <div className="bg-slate-900 rounded-xl p-4 border border-slate-700">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block mb-3">📊 Live Visualisation</span>
+                        <div className="space-y-2">
+                            {visuals.bars.map((bar, i) => (
+                                <div key={i} className="flex items-center gap-3">
+                                    <span className="text-xs text-slate-400 font-mono w-16 text-right shrink-0">{bar.label}</span>
+                                    <div className="flex-1 bg-slate-800 rounded-full h-6 overflow-hidden relative">
+                                        <div className={`h-full rounded-full transition-all duration-500 ${bar.color}`}
+                                            style={{ width: `${Math.min(100, (bar.value / bar.max) * 100)}%` }} />
+                                        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white/80">
+                                            {bar.value.toFixed(bar.value < 1 ? 3 : 1)}{bar.max <= 1 ? '' : ` / ${bar.max}`}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Visual Badges */}
+                {visuals?.badges && visuals.badges.length > 0 && (
                     <div className="flex flex-wrap gap-2">
-                        {experiment.options.map((opt) => (
-                            <button
-                                key={opt}
-                                onClick={() => handleChange(opt)}
-                                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${val === opt ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}
-                            >
-                                {opt}
-                            </button>
+                        {visuals.badges.map((b, i) => (
+                            <span key={i} className={`px-3 py-1.5 rounded-full text-xs font-bold ${b.color}`}>{b.text}</span>
                         ))}
                     </div>
                 )}
-            </div>
 
-            <div className="bg-cyan-950/40 rounded-lg p-4 border border-cyan-700/30">
-                <p className="text-sm text-slate-200 leading-relaxed">{result}</p>
+                {/* Text Result */}
+                <div className="bg-cyan-950/40 rounded-xl p-4 border border-cyan-700/30">
+                    <span className="text-xs font-bold text-cyan-500 uppercase tracking-wide block mb-2">📋 Result Analysis</span>
+                    <p className="text-sm text-slate-200 leading-relaxed">{result}</p>
+                </div>
+
+                {/* Challenge Question */}
+                {experiment.challenge && (
+                    <div className={`rounded-xl p-4 border-2 transition-all ${challengeDone ? 'bg-emerald-950/30 border-emerald-500/50' : 'bg-purple-950/30 border-purple-500/50'}`}>
+                        <div className="flex items-start gap-3">
+                            <div className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${challengeDone ? 'bg-emerald-500 text-white' : 'bg-purple-500/30 text-purple-300'}`}>
+                                {challengeDone ? '✓' : '?'}
+                            </div>
+                            <div className="flex-1">
+                                <span className={`text-xs font-bold uppercase tracking-wide block mb-1 ${challengeDone ? 'text-emerald-400' : 'text-purple-400'}`}>
+                                    🎯 Challenge Question
+                                </span>
+                                <p className="text-sm text-slate-300 mb-3">{experiment.challenge}</p>
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <button onClick={() => setChallengeDone(!challengeDone)}
+                                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${challengeDone ? 'bg-emerald-600 text-white' : 'bg-purple-600/30 text-purple-300 hover:bg-purple-600/50'}`}>
+                                        {challengeDone ? '✓ Solved!' : 'Mark as Solved'}
+                                    </button>
+                                    {experiment.hint && (
+                                        <button onClick={() => setShowHint(!showHint)}
+                                            className="px-4 py-2 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:bg-slate-700 transition-all">
+                                            {showHint ? 'Hide Hint' : '💡 Show Hint'}
+                                        </button>
+                                    )}
+                                </div>
+                                {showHint && experiment.hint && (
+                                    <div className="mt-3 bg-amber-950/30 rounded-lg p-3 border border-amber-700/30 animate-in fade-in duration-300">
+                                        <p className="text-xs text-amber-300 leading-relaxed">💡 {experiment.hint}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Experiment History */}
+                {history.length > 1 && (
+                    <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wide block mb-2">📝 Experiment Log (last {history.length})</span>
+                        <div className="space-y-1">
+                            {history.map((h, i) => (
+                                <div key={i} className={`flex items-center gap-3 text-xs py-1 ${i === 0 ? 'text-cyan-400' : 'text-slate-500'}`}>
+                                    <span className="font-mono w-8 shrink-0">{i === 0 ? '→' : `#${history.length - i}`}</span>
+                                    <span className="font-mono w-16 shrink-0">val={h.val}</span>
+                                    <span className="truncate">{h.summary}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )
