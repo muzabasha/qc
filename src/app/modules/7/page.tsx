@@ -2,7 +2,14 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { ChevronDown, ChevronUp, Lightbulb, Cpu, Target, CheckCircle2 } from 'lucide-react'
+import dynamic from 'next/dynamic'
+import { ChevronDown, ChevronUp, Lightbulb, Cpu, Target, CheckCircle2, FlaskConical } from 'lucide-react'
+
+// Dynamic imports for Labs
+const QuantumCryptoLab = dynamic(() => import('@/components/labs/QuantumCryptoLab'), { ssr: false })
+const QuantumMLLab = dynamic(() => import('@/components/labs/QuantumMLLab'), { ssr: false })
+const OptimizationLab = dynamic(() => import('@/components/labs/OptimizationLab'), { ssr: false })
+const DrugDiscoveryLab = dynamic(() => import('@/components/labs/DrugDiscoveryLab'), { ssr: false })
 
 interface ApplicationProps {
     icon: string
@@ -272,7 +279,7 @@ export default function Module7() {
                     return (
                         <div
                             key={index}
-                            className={`bg-gradient-to-br ${colors.gradient} p-8 md:p-12 rounded-[32px] border-2 ${colors.border} shadow-2xl transition-all duration-300 ${isExpanded ? 'ring-4 ring-offset-4 ring-offset-slate-950 ' + colors.border : colors.hover}`}
+                            className={`bg-linear-to-br ${colors.gradient} p-8 md:p-12 rounded-[32px] border-2 ${colors.border} shadow-2xl transition-all duration-300 ${isExpanded ? 'ring-4 ring-offset-4 ring-offset-slate-950 ' + colors.border : colors.hover}`}
                         >
                             {/* Header */}
                             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
@@ -386,7 +393,7 @@ export default function Module7() {
                                     </div>
 
                                     {/* Real Example */}
-                                    <div className={`bg-gradient-to-r ${colors.gradient} p-8 rounded-2xl border-2 ${colors.border}`}>
+                                    <div className={`bg-linear-to-r ${colors.gradient} p-8 rounded-2xl border-2 ${colors.border} mb-12`}>
                                         <div className="flex items-start gap-4">
                                             <span className="text-4xl">{app.icon}</span>
                                             <div>
@@ -399,6 +406,31 @@ export default function Module7() {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Interactive Virtual Lab Section */}
+                                    {(app.title === 'Quantum Cryptography' || 
+                                      app.title === 'Quantum Machine Learning' || 
+                                      app.title === 'Optimization Problems' || 
+                                      app.title === 'Drug Discovery') && (
+                                        <div className="space-y-8 animate-in fade-in duration-1000 mt-12 pt-12 border-t-2 border-slate-800">
+                                            <div className="flex items-center gap-4 border-b-2 border-slate-800 pb-4">
+                                                <FlaskConical size={32} className={colors.text} />
+                                                <div>
+                                                    <h3 className="text-2xl md:text-3xl font-black text-white">Interactive Virtual Lab</h3>
+                                                    <p className="text-slate-400 font-medium">NEP 2020 Experiential Learning Phase: Practicing the Theory</p>
+                                                </div>
+                                            </div>
+
+                                            {app.title === 'Quantum Cryptography' && <QuantumCryptoLab />}
+                                            {app.title === 'Quantum Machine Learning' && <QuantumMLLab />}
+                                            {app.title === 'Optimization Problems' && <OptimizationLab />}
+                                            {app.title === 'Drug Discovery' && <DrugDiscoveryLab />}
+
+                                            <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 italic text-slate-400 text-sm">
+                                                <strong className="text-slate-300 not-italic">Pro Tip:</strong> Experiment with the parameters on the left to see how the quantum models respond to change. This is called "Inquiry-Based Learning".
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
